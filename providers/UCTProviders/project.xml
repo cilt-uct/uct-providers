@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+	<pomVersion>3</pomVersion>
+	<extend>../../master/project.xml</extend>
+	<name>UCT Providers</name>
+	<groupId>uct</groupId>
+	<id>uct-provider</id>
+	<currentVersion>${sakai.version}</currentVersion>
+	<organization>
+		<name>University of Cape Town</name>
+		<url>http://www.cet.uct.ac.za/</url>
+	</organization>
+	<inceptionYear>2003</inceptionYear>
+
+	<properties>
+		<!-- build as a jar -->
+		<deploy.type>jar</deploy.type>
+	</properties>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.0.4</version>
+		</dependency>
+
+ <dependency>
+                        <groupId>sakaiproject</groupId>
+                        <artifactId>sakai-profile-api</artifactId>
+      			<properties>
+        			<!--<war.bundle>true</war.bundle>-->
+      			</properties>
+                        <version>${sakai.version}</version>
+                </dependency>
+                <dependency>
+                        <groupId>sakaiproject</groupId>
+                        <artifactId>sakai-profile-component-shared</artifactId>
+      			<properties>
+        			<!--<war.bundle>true</war.bundle>-->
+      			</properties>
+                        <version>${sakai.version}</version>
+                </dependency>
+             
+                 <dependency>
+                        <groupId>sakaiproject</groupId>
+                        <artifactId>sakai-common-composite-component-data</artifactId>
+      			<properties>
+        			<!--<war.bundle>true</war.bundle>-->
+      			</properties>
+                        <version>${sakai.version}</version>
+                </dependency>
+                 <dependency>
+                        <groupId>sakaiproject</groupId>
+                        <artifactId>sakai-common-edu-person-api</artifactId>
+      			<properties>
+        			<!--<war.bundle>true</war.bundle>-->
+      			</properties>
+                        <version>${sakai.version}</version>
+                </dependency>
+                 <dependency>
+                        <groupId>sakaiproject</groupId>
+                        <artifactId>sakai-common-manager-api</artifactId>
+      			<properties>
+        			<!--<war.bundle>true</war.bundle>-->
+      			</properties>
+                        <version>${sakai.version}</version>
+                </dependency>
+             
+ 
+                <dependency>
+                        <groupId>sakaiproject</groupId>
+                        <artifactId>sakai-common-type-api</artifactId>
+      			<properties>
+        			<!--<war.bundle>true</war.bundle>-->
+      			</properties>
+                        <version>${sakai.version}</version>
+                </dependency>  
+                		<dependency>
+			<groupId>sakaiproject</groupId>
+			<artifactId>sakai-component</artifactId>
+			<version>${sakai.version}</version>
+		</dependency>
+				<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.0.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>sakaiproject</groupId>
+			<artifactId>sakai-authz-api</artifactId>
+			<version>${sakai.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>sakaiproject</groupId>
+			<artifactId>sakai-entity-api</artifactId>
+			<version>${sakai.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>sakaiproject</groupId>
+			<artifactId>sakai-user-api</artifactId>
+			<version>${sakai.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>sakaiproject</groupId>
+			<artifactId>sakai-util-api</artifactId>
+			<version>${sakai.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>sakaiproject</groupId>
+			<artifactId>sakai-db-api</artifactId>
+			<version>${sakai.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>sakaiproject</groupId>
+			<artifactId>sakai-util</artifactId>
+			<version>${sakai.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>sakaiproject</groupId>
+			<artifactId>sakai-site-api</artifactId>
+			<version>${sakai.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>sakaiproject</groupId>
+			<artifactId>sakai-site-manage-api</artifactId>
+			<version>${sakai.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>sakaiproject</groupId>
+			<artifactId>sakai-component-api</artifactId>
+			<version>${sakai.version}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+
+		<!-- java source -->
+		<sourceDirectory>src/java</sourceDirectory>
+
+		<resources>
+
+		</resources>
+
+	</build>
+
+</project>

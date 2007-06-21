@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+<!-- Uncomment to use the sample GroupProvider (read the code to see exactly what it does!)
+
+                Make sure to remove any other GroupProviders as there can only be one group provider active at any time.
+-->
+
+<!-- no longer needed!
+	<bean id="org.sakaiproject.authz.api.GroupProvider"
+			class="za.ac.uct.sakai.providers.UCTGroupProvider"
+			init-method="init"
+			destroy-method="destroy"
+			singleton="true">
+			<property name="sqlService">
+				<ref bean="org.sakaiproject.db.api.SqlService"/>
+			</property>
+            <property name="autoDdl">
+            	<value>true</value>
+            </property>
+	</bean>
+-->
+<!-- don't think we need this anymore!
+	<bean id="org.sakaiproject.site.api.CourseManagementProvider"
+			class="za.ac.uct.sakai.providers.UCTCourseManagementProvider"
+			init-method="init"
+			destroy-method="destroy"
+			singleton="true">
+			<property name="sqlService">
+				<ref bean="org.sakaiproject.db.api.SqlService"/>
+			</property>
+            <property name="autoDdl"><value>true</value></property>
+       </bean>
+-->
+
+
+<!--    Uncomment and configure to use the JLDAP Provider.
+                Default values below point to a test account at nldap.com (free ldap test server). 
+                To login with the nldap.com test account -      username: ldap-admin 
+                                                                password: admin
+                
+                 Make sure to remove any other UserDirectoryProviders as there can only be one user provider active at any time.
+-->
+	<bean id="org.sakaiproject.user.api.UserDirectoryProvider"
+			class="edu.amc.sakai.user.JLDAPDirectoryProvider"
+			init-method="init"
+			destroy-method="destroy"
+			singleton="true">
+		<property name="ldapHost"><value>srvslsadm001.uct.ac.za srvnovnds001.uct.ac.za edir1.uct.ac.za</value></property>
+		<property name="ldapPort"><value>636</value></property> 
+		<property name="secureConnection"><value>true</value></property>
+		<property name="keystoreLocation"><value>/usr/local/sakai/keystore</value></property>
+		<property name="keystorePassword"><value>changeit</value></property>
+		<property name="basePath"><value>o=uct</value></property>
+		<property name="operationTimeout"><value>5000</value></property>
+		<property name="cacheTTL"><value>300000</value></property>
+		<property name="cacheTTLF"><value>30000</value></property>
+		<property name="logAuthSuccess"><value>false</value></property>
+		<property name="logAuthFailure"><value>true</value></property>
+		<property name="userAliasLogic"><ref bean="org.sakaiproject.useralias.logic.UserAliasLogic" /></property>
+		<property name="siteService"><ref bean="org.sakaiproject.site.api.SiteService" /></property>
+		<property name="attributeMappings">
+			<map>
+				<entry key="login"><value>cn</value></entry>    
+				<entry key="distinguishedName"><value>dn</value></entry>        
+				<entry key="firstName"><value>givenName</value></entry> 
+				<entry key="lastName"><value>sn</value></entry> 
+				<entry key="email"><value>mail</value></entry>  
+				<entry key="groupMembership"><value>groupMembership</value></entry>     
+			</map>
+		</property>
+		<property name="sqlService">
+				<ref bean="org.sakaiproject.db.api.SqlService"/>
+			</property>
+			<property name="serverConfigurationService">
+				<ref bean="org.sakaiproject.component.api.ServerConfigurationService"/>
+			</property>
+    </bean>
+
+<!--
+	The CM-based group provider makes heavy use of the CM service.  So, if we're
+	using the CM RI, wrap the group provider in a transaction proxy so we
+	can take advantage of hibernate's session-level caching.  If you are using another
+	CM implementation, you should ensure that it performs aggressive caching, since
+	calls from the CM-based group provider to the CM service are plentiful.
+-->
+
+	<bean id="org.sakaiproject.authz.api.GroupProvider"
+		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean"
+		singleton="true">
+			<property name="transactionManager">
+				<ref bean="org.sakaiproject.springframework.orm.hibernate.GlobalTransactionManager"/>
+			</property>
+			<property name="transactionAttributes">
+				<props>
+					<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+				</props>
+			</property>
+			<property name="target">
+				<bean class="org.sakaiproject.coursemanagement.impl.provider.CourseManagementGroupProvider"
+					init-method="init"
+					destroy-method="destroy">
+					<property name="cmService">
+						<ref bean="org.sakaiproject.coursemanagement.api.CourseManagementService"/>
+					</property>
+					<property name="rolePreferences">
+						<list>
+							<value>Site owner</value>
+							<value>Lecturer</value>
+							<value>Support staff</value>
+							<value>Tutor</value>
+							<value>Student</value>
+						</list>
+					</property>
+					<property name="roleResolvers">
+						<list>
+							<bean class="org.sakaiproject.coursemanagement.impl.provider.SectionRoleResolver">
+								<property name="roleMap">
+									<map>
+										<entry key="I" value="Instructor" />
+										<entry key="Student" value="Student" />
+										<entry key="GSI" value="Teaching Assistant"/>
+									</map>
+								</property>
+								<property name="officialInstructorRole" value="Instructor" />
+								<property name="enrollmentStatusRoleMap">
+									<map>
+										<entry key="enrolled" value="Student" />
+										<entry key="waitlisted" value="Student" />
+									</map>
+								</property>
+							</bean>
+							<bean class="org.sakaiproject.coursemanagement.impl.provider.CourseOfferingRoleResolver">
+								<property name="roleMap">
+									<map>
+										<entry key="CourseAdmin" value="Instructor" />
+										<entry key="I" value="Instructor" />
+                                                                                <entry key="Student" value="Student" />
+									</map>
+								</property>
+							</bean>
+							<bean class="org.sakaiproject.coursemanagement.impl.provider.CourseSetRoleResolver">
+								<property name="roleMap">
+									<map>
+										<entry key="DeptAdmin" value="Support staff" />
+									</map>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</property>
+	</bean>
+<!--
+	The CM-based legacy CM provider makes heavy use of the CM service.  So, if we're
+	using the CM RI, wrap the legacy CM provider in a transaction proxy so we
+	can take advantage of hibernate's session-level caching.  If you are using another
+	CM implementation, you should ensure that it performs aggressive caching, since
+	calls from the CM-based legacy CM provider to the CM service are plentiful.
+-->
+	<bean id="org.sakaiproject.site.api.CourseManagementProvider"
+		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+			<property name="transactionManager">
+				<ref bean="org.sakaiproject.springframework.orm.hibernate.GlobalTransactionManager"/>
+			</property>
+			<property name="transactionAttributes">
+				<props>
+					<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+				</props>
+			</property>
+			<property name="target">
+				<bean class="org.sakaiproject.coursemanagement.impl.provider.CourseManagementProviderCMImpl">
+					<property name="cmService">
+						<ref bean="org.sakaiproject.coursemanagement.api.CourseManagementService"/>
+					</property>
+					<property name="cmGroupProvider">
+						<ref bean="org.sakaiproject.authz.api.GroupProvider"/>
+					</property>
+					<property name="uds">
+						<ref bean="org.sakaiproject.user.api.UserDirectoryService"/>
+					</property>
+					<property name="sectionMappingRoles">
+						<list>
+							<value>Instructor</value>
+							<value>student</value>
+						</list>
+					</property>
+				</bean>
+			</property>
+	</bean>
+</beans>
