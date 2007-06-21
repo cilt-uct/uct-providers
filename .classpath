@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="jldap/src/java"/>
-	<classpathentry kind="src" path="allhands/src/java"/>
-	<classpathentry kind="src" path="cm/cm-cm-provider/src/java"/>
-	<classpathentry kind="src" path="federating/src/java"/>
-	<classpathentry kind="src" path="cm/cm-authz-provider/src/java"/>
-	<classpathentry kind="src" path="imsent/src/java"/>
-	<classpathentry kind="src" path="kerberos/src/java"/>
-	<classpathentry kind="src" path="openldap/src/java"/>
-	<classpathentry kind="src" path="sample/src/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="var" path="MAVEN_REPO/commons-logging/jars/commons-logging-1.0.4.jar"/>
 	<classpathentry kind="var" path="MAVEN_REPO/openldap/jars/ldap-2005.03.29.jar"/>
@@ -21,5 +13,8 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/component-api"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/cm-api"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/site-manage-api"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/site-api"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/tool-api"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/UserAlias"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
