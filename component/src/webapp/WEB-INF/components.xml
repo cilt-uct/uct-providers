@@ -104,7 +104,7 @@
 									<map>
 										<entry key="CourseAdmin" value="Instructor" />
 										<entry key="I" value="Lecturer" />
-                                                                                <entry key="Student" value="Student" />
+                                       <entry key="Student" value="Student" />
 									</map>
 								</property>
 							</bean>
