@@ -86,7 +86,7 @@
 							<bean class="org.sakaiproject.coursemanagement.impl.provider.SectionRoleResolver">
 								<property name="roleMap">
 									<map>
-										<entry key="I" value="Instructor" />
+										<entry key="I" value="Lecturer" />
 										<entry key="Student" value="Student" />
 										<entry key="GSI" value="Teaching Assistant"/>
 									</map>
@@ -103,7 +103,7 @@
 								<property name="roleMap">
 									<map>
 										<entry key="CourseAdmin" value="Instructor" />
-										<entry key="I" value="Instructor" />
+										<entry key="I" value="Lecturer" />
                                                                                 <entry key="Student" value="Student" />
 									</map>
 								</property>
@@ -112,6 +112,7 @@
 								<property name="roleMap">
 									<map>
 										<entry key="DeptAdmin" value="Support staff" />
+										<entry key="Observer" value="Observer" />
 									</map>
 								</property>
 							</bean>
