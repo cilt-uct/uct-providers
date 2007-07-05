@@ -24,10 +24,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.sakaiproject.coursemanagement.api.CourseManagementService;
+import org.sakaiproject.coursemanagement.api.Membership;
 import org.sakaiproject.coursemanagement.api.Section;
 import org.sakaiproject.authz.api.GroupProvider;
 
@@ -58,9 +60,20 @@ public class CourseManagementGroupProvider implements GroupProvider {
 	 * GroupProvider interface.
 	 */
 	public String getRole(String id, String user) {
-		log.error("\n------------------------------------------------------------------\n");
-		log.error("THIS METHOD IS NEVER CALLED IN SAKAI.  WHAT HAPPENED???");
-		log.error("\n------------------------------------------------------------------\n");
+		Enrollment en = cmService.findEnrollment(user, id);
+		if (en != null && !en.isDropped()){
+			Section s = cmService.getSection(id);
+			// Check for memberships
+			Set memberships = cmService.getSectionMemberships(section.getEid());
+			for(Iterator iter = memberships.iterator(); iter.hasNext();) {
+				Membership membership = (Membership)iter.next();
+				// only do this if we have the right user
+				if(user.equals(membership.getUserId()) ) {
+					return membership.getRole();
+				}
+			}
+		}
+			
 		return null;
 	}
 		
