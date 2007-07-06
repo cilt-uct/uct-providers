@@ -91,7 +91,7 @@
 										<entry key="GSI" value="Teaching Assistant"/>
 									</map>
 								</property>
-								<property name="officialInstructorRole" value="Instructor" />
+								<!-- <property name="officialInstructorRole" value="Instructor" /> -->
 								<property name="enrollmentStatusRoleMap">
 									<map>
 										<entry key="enrolled" value="Student" />
