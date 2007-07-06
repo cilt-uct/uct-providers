@@ -102,7 +102,6 @@
 							<bean class="org.sakaiproject.coursemanagement.impl.provider.CourseOfferingRoleResolver">
 								<property name="roleMap">
 									<map>
-										<entry key="CourseAdmin" value="Instructor" />
 										<entry key="I" value="Lecturer" />
                                        <entry key="Student" value="Student" />
 									</map>
