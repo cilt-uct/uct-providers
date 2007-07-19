@@ -751,7 +751,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 			}
 		}
 		catch (Exception e) {
-			e.printStackTrace();
+			m_logger.warn(e.getMessage());
 		}
 		
 		return null;
