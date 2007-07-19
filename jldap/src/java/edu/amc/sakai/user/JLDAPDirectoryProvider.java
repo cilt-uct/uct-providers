@@ -738,7 +738,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 	
 	public String getDisplayName(User user) 
 	{
-		/*
+		
 		try {
 			Placement placement = ToolManager.getCurrentPlacement();
 			String presentSiteId = placement.getContext();
@@ -753,7 +753,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-		*/
+		
 		return null;
 		
 	
