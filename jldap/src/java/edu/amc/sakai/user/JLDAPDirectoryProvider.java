@@ -97,6 +97,8 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 	private boolean secureConnection = false; //whether or not we are using SSL
 	private int operationTimeout = 5000; //default timeout for operations (in ms)
 
+
+	
 	/* logging options */
 	private boolean logAuthSuccess = false;  // log successful authentication
 	private boolean logAuthFailure = true;   // log unsuccessful authentication
@@ -739,6 +741,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 	public String getDisplayName(User user) 
 	{
 		
+		if (m_sService.getBoolean("udp.useUserAlias", false)) {
 		try {
 			Placement placement = ToolManager.getCurrentPlacement();
 			String presentSiteId = placement.getContext();
@@ -753,7 +756,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 		catch (Exception e) {
 			m_logger.warn(e.getMessage());
 		}
-		
+		}
 		return null;
 		
 	
