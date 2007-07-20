@@ -42,6 +42,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.List;
 
+import org.sakaiproject.user.api.User;
 import org.sakaiproject.user.api.UserDirectoryProvider;
 import org.sakaiproject.user.api.UserEdit;
 
@@ -235,7 +236,8 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 				String[] attrList = new String[] {	
 						(String)attributeMappings.get("distinguishedName"),
 						"objectClass",
-						"aliasedObjectName"						
+						"aliasedObjectName",
+						"loginDisabled"
 				};
 				
 				try{
@@ -254,7 +256,18 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 						}
 						conn.disconnect();
 						return false;
+						//is the account dissabled?
+					} else if ("true".equalsIgnoreCase(userEntry.getAttribute("loginDisabled").getStringValue())) {
+						if (logAuthFailure)
+						{
+						 	m_logger.info("Authentication failed for " + userLogin + ": Account Disabled");
+						}
+						conn.disconnect();
+						return false;
+						
 					}
+					
+					
 					
 					// if this object is an alias use the aliased object to auth
 					LDAPAttribute objectClass = userEntry.getAttribute("objectClass");
@@ -761,6 +774,24 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 		
 	
 
+	}
+
+	public String getDisplayName(User user, String context) {
+		if (m_sService.getBoolean("udp.useUserAlias", false)) {
+			try {
+				Site s = siteService.getSite(context);
+				if (userAliasLogic.siteIsAlaised(s)) {
+					UserAliasItem ua = userAliasLogic.getUserAlaisItemByIdForContext(user.getId(), s.getId());
+					if (ua != null) {
+						return ua.getFirstName() + " " + ua.getLastName();
+					}
+				}
+			}
+			catch (Exception e) {
+				m_logger.warn(e.getMessage());
+			}
+			}
+			return null;
 	}
 
 }
