@@ -768,6 +768,8 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 		}
 		catch (Exception e) {
 			m_logger.warn(e.getMessage());
+			if (m_logger.isDebugEnabled())
+				e.printStackTrace();
 		}
 		}
 		return null;
@@ -789,6 +791,8 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 			}
 			catch (Exception e) {
 				m_logger.warn(e.getMessage());
+				if (m_logger.isDebugEnabled())
+					e.printStackTrace();
 			}
 			}
 			return null;
