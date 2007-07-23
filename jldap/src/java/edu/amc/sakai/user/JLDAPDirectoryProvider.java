@@ -779,6 +779,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 	}
 
 	public String getDisplayName(User user, String context) {
+		m_logger.debug("getDisplayName(User user, String context) for context: " + context);
 		if (m_sService.getBoolean("udp.useUserAlias", false)) {
 			try {
 				Site s = siteService.getSite(context);
