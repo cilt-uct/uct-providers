@@ -788,7 +788,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 		if (m_sService.getBoolean("udp.useUserAlias", false)) {
 			try {
 				
-					UserAliasItem ua = userAliasLogic.getUserAlaisItemByIdForContext(user.getId(), s.getId());
+					UserAliasItem ua = userAliasLogic.getUserAlaisItemByIdForContext(user.getId(), context);
 					if (ua != null) {
 						return ua.getFirstName() + " " + ua.getLastName();
 					}
