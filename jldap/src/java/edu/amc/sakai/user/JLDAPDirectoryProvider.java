@@ -753,11 +753,11 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 	
 	public String getDisplayName(User user) 
 	{
-		
+
 		if (m_sService.getBoolean("udp.useUserAlias", false)) {
 		try {
 			Placement placement = ToolManager.getCurrentPlacement();
-			String presentSiteId = placement.getContext();
+			String presentSiteId = "/site/" + placement.getContext();
 			Site s = siteService.getSite(presentSiteId);
 			if (userAliasLogic.siteIsAlaised(s)) {
 				UserAliasItem ua = userAliasLogic.getUserAlaisItemByIdForContext(user.getId(), s.getId());
