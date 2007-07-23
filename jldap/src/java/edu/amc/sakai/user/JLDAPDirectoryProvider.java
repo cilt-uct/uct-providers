@@ -761,8 +761,15 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 			
 			
 				UserAliasItem ua = userAliasLogic.getUserAlaisItemByIdForContext(user.getId(), presentSiteId);
-				if (ua != null) {
-					return ua.getFirstName() + " " + ua.getLastName();
+				if (ua != null && (ua.getFirstName() != null || ua.getLastName() != null )) {
+					String fn = "";
+					if (ua.getFirstName() != null)
+						fn = ua.getFirstName();
+					String ln = "";
+					if (ua.getLastName() != null)
+						ln = ua.getLastName();
+					
+					return fn + " " + ln;
 				}
 			
 		}
@@ -789,8 +796,15 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 			try {
 				
 					UserAliasItem ua = userAliasLogic.getUserAlaisItemByIdForContext(user.getId(), context);
-					if (ua != null) {
-						return ua.getFirstName() + " " + ua.getLastName();
+					if (ua != null && (ua.getFirstName() != null || ua.getLastName() != null )) {
+						String fn = "";
+						if (ua.getFirstName() != null)
+							fn = ua.getFirstName();
+						String ln = "";
+						if (ua.getLastName() != null)
+							ln = ua.getLastName();
+						
+						return fn + " " + ln;
 					}
 				
 			}
