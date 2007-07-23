@@ -758,13 +758,13 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 		try {
 			Placement placement = ToolManager.getCurrentPlacement();
 			String presentSiteId = "/site/" + placement.getContext();
-			Site s = siteService.getSite(presentSiteId);
-			if (userAliasLogic.siteIsAlaised(s)) {
+			
+			
 				UserAliasItem ua = userAliasLogic.getUserAlaisItemByIdForContext(user.getId(), s.getId());
 				if (ua != null) {
 					return ua.getFirstName() + " " + ua.getLastName();
 				}
-			}
+			
 		}
 		catch (Exception e) {
 			m_logger.warn(e.getMessage());
@@ -787,13 +787,12 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 				m_logger.debug("getDisplayName(User user, String context) for context: " + context);
 		if (m_sService.getBoolean("udp.useUserAlias", false)) {
 			try {
-				Site s = siteService.getSite(context);
-				if (userAliasLogic.siteIsAlaised(s)) {
+				
 					UserAliasItem ua = userAliasLogic.getUserAlaisItemByIdForContext(user.getId(), s.getId());
 					if (ua != null) {
 						return ua.getFirstName() + " " + ua.getLastName();
 					}
-				}
+				
 			}
 			catch (Exception e) {
 				m_logger.warn(e.getMessage());
