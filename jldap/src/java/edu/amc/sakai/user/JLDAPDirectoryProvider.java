@@ -760,7 +760,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 			String presentSiteId = "/site/" + placement.getContext();
 			
 			
-				UserAliasItem ua = userAliasLogic.getUserAlaisItemByIdForContext(user.getId(), s.getId());
+				UserAliasItem ua = userAliasLogic.getUserAlaisItemByIdForContext(user.getId(), presentSiteId);
 				if (ua != null) {
 					return ua.getFirstName() + " " + ua.getLastName();
 				}
