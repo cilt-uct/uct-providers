@@ -754,23 +754,24 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 	public String getDisplayName(User user) 
 	{
 
-		if (m_sService.getBoolean("udp.useUserAlias", false)) {
+		if (m_sService.getBoolean("udp.useUserAlias", false) ) {
 		try {
 			Placement placement = ToolManager.getCurrentPlacement();
 			String presentSiteId = "/site/" + placement.getContext();
 			
-			
-				UserAliasItem ua = userAliasLogic.getUserAlaisItemByIdForContext(user.getId(), presentSiteId);
-				if (ua != null && (ua.getFirstName() != null || ua.getLastName() != null )) {
-					String fn = "";
-					if (ua.getFirstName() != null)
-						fn = ua.getFirstName();
-					String ln = "";
-					if (ua.getLastName() != null)
-						ln = ua.getLastName();
+			if (userAliasLogic.realmIsAliased(presentSiteId)) {
+					UserAliasItem ua = userAliasLogic.getUserAliasItemByIdForContext(user.getId(), presentSiteId);
+					if (ua != null && (ua.getFirstName() != null || ua.getLastName() != null )) {
+						String fn = "";
+						if (ua.getFirstName() != null)
+							fn = ua.getFirstName();
+						String ln = "";
+						if (ua.getLastName() != null)
+							ln = ua.getLastName();
 					
-					return fn + " " + ln;
-				}
+						return fn + " " + ln;
+					}
+			}
 			
 		}
 		catch (Exception e) {
@@ -792,10 +793,9 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 				context="/site/" + context;
 		
 				m_logger.debug("getDisplayName(User user, String context) for context: " + context);
-		if (m_sService.getBoolean("udp.useUserAlias", false)) {
+		if (m_sService.getBoolean("udp.useUserAlias", false) && userAliasLogic.realmIsAliased(context) ) {
 			try {
-				
-					UserAliasItem ua = userAliasLogic.getUserAlaisItemByIdForContext(user.getId(), context);
+					UserAliasItem ua = userAliasLogic.getUserAliasItemByIdForContext(user.getId(), context);
 					if (ua != null && (ua.getFirstName() != null || ua.getLastName() != null )) {
 						String fn = "";
 						if (ua.getFirstName() != null)
