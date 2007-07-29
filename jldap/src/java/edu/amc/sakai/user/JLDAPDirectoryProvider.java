@@ -256,8 +256,11 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 						}
 						conn.disconnect();
 						return false;
-						//is the account dissabled?
-					} else if ("true".equalsIgnoreCase(userEntry.getAttribute("loginDisabled").getStringValue())) {
+					}
+
+					// Disable for now - NPEs on student accounts
+/*
+					 else if ("true".equalsIgnoreCase(userEntry.getAttribute("loginDisabled").getStringValue())) {
 						if (logAuthFailure)
 						{
 						 	m_logger.info("Authentication failed for " + userLogin + ": Account Disabled");
@@ -266,8 +269,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 						return false;
 						
 					}
-					
-					
+*/
 					
 					// if this object is an alias use the aliased object to auth
 					LDAPAttribute objectClass = userEntry.getAttribute("objectClass");
