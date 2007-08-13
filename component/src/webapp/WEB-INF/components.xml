@@ -15,7 +15,7 @@
 			init-method="init"
 			destroy-method="destroy"
 			singleton="true">
-		<property name="ldapHost"><value>srvslsadm001.uct.ac.za srvnovnds001.uct.ac.za edir1.uct.ac.za</value></property>
+		<property name="ldapHost"><value>srvslsath001.uct.ac.za srvslsath002.uct.ac.za srvslsadm001.uct.ac.za srvnovnds001.uct.ac.za edir1.uct.ac.za</value></property>
 		<property name="ldapPort"><value>636</value></property> 
 		<property name="secureConnection"><value>true</value></property>
 		<property name="keystoreLocation"><value>/usr/local/sakai/keystore</value></property>
