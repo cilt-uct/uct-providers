@@ -778,7 +778,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 			
 		}
 		catch (Exception e) {
-			m_logger.warn(e.getMessage());
+			m_logger.warn("Cannot resolve name: " + e.getLocalizedMessage());
 			if (m_logger.isDebugEnabled())
 				e.printStackTrace();
 		}
@@ -812,7 +812,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 				
 			}
 			catch (Exception e) {
-				m_logger.warn(e.getMessage());
+				m_logger.warn("Cannot resolve name: " + e.getMessage());
 				if (m_logger.isDebugEnabled())
 					e.printStackTrace();
 			}
