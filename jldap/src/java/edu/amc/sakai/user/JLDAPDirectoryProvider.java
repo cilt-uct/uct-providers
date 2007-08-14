@@ -293,10 +293,11 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 					{
 						m_logger.info("Authenticated " + userLogin + " (" + thisDn + ") from LDAP");
 					}		
-
-					Session session = SessionManager.getCurrentSession();
+					
+					//seing these are now diferent servers we no longer set this here
+					//Session session = SessionManager.getCurrentSession();
 					// session.setAttribute("netPasswd",password);		
-					session.setAttribute("netDn",thisDn);
+					//session.setAttribute("netDn",thisDn);
 
 					// create entry for authenticated user in cache
 					UserData u = new UserData(); 
