@@ -12,7 +12,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/db-api"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/component-api"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/cm-api"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/site-manage-api"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/site-api"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/tool-api"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/UserAlias"/>
