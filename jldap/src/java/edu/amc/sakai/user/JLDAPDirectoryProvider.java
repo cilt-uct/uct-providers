@@ -163,9 +163,10 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
            // set keystore location for SSL (if we are using it)
            if(isSecureConnection()){
         	   if (getKeystoreLocation() != null) {
-           			System.setProperty("javax.net.ssl.trustStore", getKeystoreLocation());
-           			System.setProperty("javax.net.ssl.trustStorePassword", getKeystorePassword());
+           		//	System.setProperty("javax.net.ssl.trustStore", getKeystoreLocation());
+           		//	System.setProperty("javax.net.ssl.trustStorePassword", getKeystorePassword());
         	   }
+        	   m_logger.debug("Keystore is at: " + System.getenv("javax.net.ssl.trustStore"));
            		LDAPSocketFactory ssf = new LDAPJSSESecureSocketFactory();
     			LDAPConnection.setSocketFactory(ssf);
            }
