@@ -112,6 +112,7 @@
 									<map>
 										<entry key="DeptAdmin" value="Support staff" />
 										<entry key="Observer" value="Observer" />
+										<entry key="Lecturer" value="Lecturer" />
 									</map>
 								</property>
 							</bean>
