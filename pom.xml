@@ -16,6 +16,6 @@
     <module>cm/cm-cm-provider</module>
     <module>component</module>
     <module>jldap</module>
-    <module>sample</module>
+    <!-- <module>sample</module> -->
   </modules>
 </project>
