@@ -371,7 +371,7 @@ public class SampleUserDirectoryProvider implements UserDirectoryProvider, Users
 	}
 
 	
-	public String getDisplayId(User user, Sting context) {
+	public String getDisplayId(User user, String context) {
 		return user.getEid();
 	}
 	/**
