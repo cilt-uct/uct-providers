@@ -370,6 +370,10 @@ public class SampleUserDirectoryProvider implements UserDirectoryProvider, Users
 		return user.getEid();
 	}
 
+	
+	public String getDisplayId(User user, Sting context) {
+		return user.getEid();
+	}
 	/**
 	 * {@inheritDoc}
 	 */
