@@ -20,14 +20,7 @@
     <deploy.target>components</deploy.target>
   </properties>
   <dependencies>
-<!-- Needed for the sample provider
-		-->
-    <dependency>
-      <groupId>org.sakaiproject</groupId>
-      <artifactId>sakai-sample-provider</artifactId>
-      <version>${sakai.version}</version>
-    </dependency>
-<!-- -->
+
 
 		<dependency>
 			<groupId>org.sakaiproject</groupId>
