@@ -1,25 +1,25 @@
 /**********************************************************************************
-* $URL$
-* $Id$
-***********************************************************************************
-*
-* Copyright (c) 2003, 2004, 2005 The Regents of the University of Michigan, Trustees of Indiana University,
-*                  Board of Trustees of the Leland Stanford, Jr., University, and The MIT Corporation
-* 
-* Licensed under the Educational Community License Version 1.0 (the "License");
-* By obtaining, using and/or copying this Original Work, you agree that you have read,
-* understand, and will comply with the terms and conditions of the Educational Community License.
-* You may obtain a copy of the License at:
-* 
-*      http://cvs.sakaiproject.org/licenses/license_1_0.html
-* 
-* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-* INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
-* AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-* DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
-* FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*
-**********************************************************************************/
+ * $URL$
+ * $Id$
+ ***********************************************************************************
+ *
+ * Copyright (c) 2003, 2004, 2005 The Regents of the University of Michigan, Trustees of Indiana University,
+ *                  Board of Trustees of the Leland Stanford, Jr., University, and The MIT Corporation
+ * 
+ * Licensed under the Educational Community License Version 1.0 (the "License");
+ * By obtaining, using and/or copying this Original Work, you agree that you have read,
+ * understand, and will comply with the terms and conditions of the Educational Community License.
+ * You may obtain a copy of the License at:
+ * 
+ *      http://cvs.sakaiproject.org/licenses/license_1_0.html
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
+ * AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ **********************************************************************************/
 
 /**
  * <p>
@@ -76,7 +76,7 @@ import org.sakaiproject.useralias.model.UserAliasItem;
 import sun.misc.BASE64Encoder;
 
 
-// following imports are only needed if you are doing group membership -> sakai type matching (see section in getUser())
+//following imports are only needed if you are doing group membership -> sakai type matching (see section in getUser())
 /*******
 import com.novell.ldap.LDAPAttribute;
 
@@ -87,7 +87,7 @@ import com.novell.ldap.util.RDN;
 import java.util.Vector;
 
 import java.util.ListIterator;
-*******/
+ *******/
 
 public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdvisorUDP {
 	private String ldapHost = ""; //address of ldap server
@@ -99,34 +99,34 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 	private int operationTimeout = 5000; //default timeout for operations (in ms)
 
 
-	
+
 	/* logging options */
 	private boolean logAuthSuccess = false;  // log successful authentication
 	private boolean logAuthFailure = true;   // log unsuccessful authentication
-	
+
 	/* Hashmap of attribute mappings */
 	private HashMap attributeMappings = new HashMap();
-	
+
 	/* Hashtable of users that have successfully logged in...
 	 * we pull their details from here instead of the directory on subsequent requests
 	 * we will also expire their details after a default five minutes or so
 	 */
 	private Hashtable users = new Hashtable();
-	
+
 	/* Dependency: logging service */  	
 	private static Log m_logger = LogFactory.getLog(JLDAPDirectoryProvider.class);
 
 	/** Dependency: SqlService */
 	protected SqlService m_sqlService = null;
-		
+
 	/** Configuration: Cache TTL for positive auth caching (ms, defaults to 5 minutes) */
 	protected int m_cachettl = 5 * 60 * 1000;
-	
+
 	/** Configuration: Cache TTL for negative auth caching (ms, defaults to 30 seconds) */
 	protected int m_cachettlf = 30 * 1000;
 
 	protected ServerConfigurationService m_sService = null;
-	
+
 	public JLDAPDirectoryProvider(){
 		attributeMappings.put("login","cn");
 		attributeMappings.put("firstName","givenName");
@@ -135,12 +135,12 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 		attributeMappings.put("groupMembership","groupMembership");
 		attributeMappings.put("distinguishedName","dn");	
 	}
-	
+
 	public void setSqlService(SqlService service)
 	{
 		m_sqlService = service;
 	}
-	
+
 	public void setServerConfigurationService(ServerConfigurationService service)
 	{
 		m_sService = service;
@@ -150,35 +150,35 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 	public void setUserAliasLogic(UserAliasLogic ual) {
 		userAliasLogic = ual;
 	}
-	
+
 	private SiteService siteService;
 	public void setSiteService(SiteService ss) {
 		siteService = ss;
 	}
-	
-    public void init()  
-    {     
-         try   {
-           m_logger.info(this +".init()");               
-           // set keystore location for SSL (if we are using it)
-           if(isSecureConnection()){
-        	   if (getKeystoreLocation() != null) {
-           		//	System.setProperty("javax.net.ssl.trustStore", getKeystoreLocation());
-           		//	System.setProperty("javax.net.ssl.trustStorePassword", getKeystorePassword());
-        	   }
-        	   m_logger.debug("Keystore is at: " + System.getenv("javax.net.ssl.trustStore"));
-           		LDAPSocketFactory ssf = new LDAPJSSESecureSocketFactory();
-    			LDAPConnection.setSocketFactory(ssf);
-           }
-          }  
-         catch (Throwable t) {m_logger.warn(this +".init(): ", t);}  
-    }
-    
-    public void destroy() 
-    {       
-    	m_logger.info(this +".destroy()");   
-    }
-        
+
+	public void init()  
+	{     
+		try   {
+			m_logger.info(this +".init()");               
+			// set keystore location for SSL (if we are using it)
+			if(isSecureConnection()){
+				if (getKeystoreLocation() != null) {
+					//	System.setProperty("javax.net.ssl.trustStore", getKeystoreLocation());
+					//	System.setProperty("javax.net.ssl.trustStorePassword", getKeystorePassword());
+				}
+				m_logger.debug("Keystore is at: " + System.getenv("javax.net.ssl.trustStore"));
+				LDAPSocketFactory ssf = new LDAPJSSESecureSocketFactory();
+				LDAPConnection.setSocketFactory(ssf);
+			}
+		}  
+		catch (Throwable t) {m_logger.warn(this +".init(): ", t);}  
+	}
+
+	public void destroy() 
+	{       
+		m_logger.info(this +".destroy()");   
+	}
+
 	public boolean authenticateUser(String userLogin, UserEdit edit, String password){
 		m_logger.debug(this +".authenticateUser(): " + userLogin); 
 
@@ -218,23 +218,23 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 					|| ((System.currentTimeMillis() - existingUser.getTimeStamp()) > m_cachettlf && !existingUser.authSuccess && existingUser.getHpw().equals(hpassword))
 					|| !(existingUser.getHpw().equals(hpassword)) )
 			{
-				
+
 				// remove any references to the user from the hashtable
 				users.remove(userLogin);
-				
+
 				// create new ldap connection
 				LDAPConnection conn = new LDAPConnection();	
 				LDAPConstraints cons = new LDAPConstraints();
-				
+
 				cons.setTimeLimit(operationTimeout);			
 				conn.setConstraints(cons);
-		
+
 				// filter to find user
 				String sFilter = (String)attributeMappings.get("login") + "=" + userLogin;
-				
+
 				// string to hold dn
 				String thisDn = "";
-				
+
 				// string array of attribs to get from the directory
 				String[] attrList = new String[] {	
 						(String)attributeMappings.get("distinguishedName"),
@@ -242,27 +242,27 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 						"aliasedObjectName",
 						"loginDisabled"
 				};
-				
+
 				try{
 					// connect to ldap server
 					conn.connect( ldapHost, ldapPort );
-					
+
 					// get entry from directory
 					LDAPEntry userEntry = getEntryFromDirectory(sFilter,attrList,conn);
-					
+
 					// check that user exists in directory
 					if (userEntry == null)
 					{
 						if (logAuthFailure)
 						{
-						 	m_logger.info("Authentication failed for " + userLogin + ": not found in LDAP directory");
+							m_logger.info("Authentication failed for " + userLogin + ": not found in LDAP directory");
 						}
 						conn.disconnect();
 						return false;
 					}
 
 					// Disable for now - NPEs on student accounts
-/*
+					/*
 					 else if ("true".equalsIgnoreCase(userEntry.getAttribute("loginDisabled").getStringValue())) {
 						if (logAuthFailure)
 						{
@@ -270,13 +270,13 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 						}
 						conn.disconnect();
 						return false;
-						
+
 					}
-*/
-					
+					 */
+
 					// if this object is an alias use the aliased object to auth
 					LDAPAttribute objectClass = userEntry.getAttribute("objectClass");
-					
+
 					if (objectClass.getStringValue().equals("aliasObject"))
 					{
 						LDAPAttribute aliasDN = userEntry.getAttribute("aliasedObjectName");
@@ -284,19 +284,19 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 					} else {
 						thisDn = userEntry.getDN();
 					}
-					 
+
 					// attempt to bind to the directory... failure here probably means bad login/password
 					conn.bind(LDAPConnection.LDAP_V3,
-								thisDn,
-								password.getBytes("UTF8"));
-				
+							thisDn,
+							password.getBytes("UTF8"));
+
 					conn.disconnect();
-		
+
 					if (logAuthSuccess)
 					{
 						m_logger.info("Authenticated " + userLogin + " (" + thisDn + ") from LDAP");
 					}		
-					
+
 					//seing these are now diferent servers we no longer set this here
 					//Session session = SessionManager.getCurrentSession();
 					// session.setAttribute("netPasswd",password);		
@@ -308,17 +308,17 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 					u.setHpw(hpassword);
 					u.setTimeStamp(System.currentTimeMillis());
 					u.setAuthSuccess(true);
-					
+
 					// put entry for authenticated user into cache
 					users.put(userLogin, u);
-		
+
 					return true;
 				}
 				catch(Exception e)
 				{
 					if (logAuthFailure)
 					{
-					 	m_logger.info("Authentication failed for " + userLogin + " (" + thisDn + "): " + e.toString());
+						m_logger.info("Authentication failed for " + userLogin + " (" + thisDn + "): " + e.toString());
 					}
 
 					// create entry for user failed authenticatation in cache
@@ -330,7 +330,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 
 					// put entry for authenticated user into cache
 					users.put(userLogin, u);
-					
+
 					return false;
 				}
 			}
@@ -338,11 +338,11 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 			{
 				// Valid cache entry
 				authUser = existingUser.getAuthSuccess();
-				
+
 				if (authUser && logAuthSuccess) {
 					m_logger.info("Authenticated " + userLogin + " from auth cache");
 				}
-				
+
 				if (!authUser && logAuthFailure) {
 					m_logger.info("Authentication failed for " + userLogin + ": matched invalid password from auth cache");				
 				}
@@ -357,23 +357,23 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 			return false;
 		}
 	}
-	
+
 	public void destroyAuthentication() {
 		// not sure what to do here
 	}
-	
-	
+
+
 	public boolean findUserByEmail(UserEdit edit, String email) {
 		return false;
 	}
-	
+
 	public boolean getUser(UserEdit edit) {
 
 		// always return false as we're only using LDAP for authentication
 		m_logger.debug(this +".getUser() from LDAP directory: "+edit.getId());
 		return false;
 	}
-	
+
 	/**
 	 * Access a collection of UserEdit objects; if the user is found, update the information, otherwise remove the UserEdit object from the collection.
 	 * @param users The UserEdit objects (with id set) to fill in or remove.
@@ -394,10 +394,10 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 	public boolean updateUserAfterAuthentication() {
 		return false;
 	}
-	
+
 	public boolean userExists(String id) {
 		UserData existingUser = (UserData)users.get(id);
-		
+
 		if(existingUser != null){
 			return true;
 		}
@@ -413,37 +413,37 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 			conn.disconnect();
 		}
 		catch(Exception e)
-			{
+		{
 			return false;	
-			}		
+		}		
 		return true;
 	}
-	
+
 	// search the directory to get an entry
 	private LDAPEntry getEntryFromDirectory(String searchFilter, String[] attribs, LDAPConnection conn)
-		throws LDAPException
+	throws LDAPException
 	{
 		LDAPEntry nextEntry = null;
 		LDAPSearchConstraints cons = new LDAPSearchConstraints();
 		cons.setDereference(LDAPSearchConstraints.DEREF_NEVER);		
 		cons.setTimeLimit(operationTimeout);
-		
+
 		LDAPSearchResults searchResults =
 			conn.search(getBasePath(),
 					LDAPConnection.SCOPE_SUB,
 					searchFilter,
 					attribs,
-			        false,
+					false,
 					cons);
-		
+
 		if(searchResults.hasMore()){
-            		nextEntry = searchResults.next();            
+			nextEntry = searchResults.next();            
 		}
 
 		return nextEntry;
 	}
-	
-	
+
+
 	/**
 	 * @return Returns the ldapHost.
 	 */
@@ -487,15 +487,15 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 	 */
 	public void setLogAuthSuccess(String value) {
 		try
-        {
+		{
 			this.logAuthSuccess = new Boolean(value).booleanValue();
-        }
-        catch (Exception any)
-        {
-        	m_logger.warn("Invalid value setting logAuthSuccess: " + value);
-        }
+		}
+		catch (Exception any)
+		{
+			m_logger.warn("Invalid value setting logAuthSuccess: " + value);
+		}
 	}
-	
+
 
 	/**
 	 * @param logAuthFailure Log authentication failures.
@@ -504,11 +504,11 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 		try
 		{
 			this.logAuthFailure = new Boolean(value).booleanValue();
-         }
-        catch (Exception any)
-        {
-        	m_logger.warn("Invalid value setting logAuthFailure: " + value);
-        }
+		}
+		catch (Exception any)
+		{
+			m_logger.warn("Invalid value setting logAuthFailure: " + value);
+		}
 	}
 
 	/**
@@ -535,7 +535,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 	public void setKeystorePassword(String keystorePassword) {
 		this.keystorePassword = keystorePassword;
 	}
-	
+
 	/**
 	 * @return Returns the basePath.
 	 */
@@ -548,7 +548,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 	public void setBasePath(String basePath) {
 		this.basePath = basePath;
 	}
-	
+
 	//helper class for storing user data in the hashtable cache
 	class UserData{
 		String id;
@@ -559,14 +559,14 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 		String hpw;
 		boolean authSuccess;
 		long timeStamp;
-		
+
 		/**
 		 * @return whether the user susscefully authenticated
 		 */
 		public boolean getAuthSuccess() {
 			return authSuccess;
 		}
-		
+
 		/**
 		 * @param boolean - has the user succesfully authenticated
 		 */
@@ -574,7 +574,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 		{
 			this.authSuccess = value;
 		}
-		
+
 		/**
 		 * @return Returns the email.
 		 */
@@ -635,7 +635,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 		public void setType(String type) {
 			this.type = type;
 		}
-		
+
 		/**
 		 * @param hpw
 		 *        hashed pw to put in.
@@ -694,7 +694,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 			return null;
 		}
 	} // encodeSHA
-	
+
 	/**
 	 * @param timeMs The m_cachettl to set.
 	 */
@@ -708,7 +708,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 	public void setCacheTTLF(int timeMs) {
 		m_cachettlf = timeMs;
 	}
-	
+
 	/**
 	 * @return Returns the attributeMappings.
 	 */
@@ -733,7 +733,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 	public void setOperationTimeout(int operationTimeout) {
 		this.operationTimeout = operationTimeout;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -741,7 +741,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 	{
 		return false;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -749,24 +749,24 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 	{
 		return false;
 	}
-	
+
 	// display Advisor methods
 	public String getDisplayId(User user)
 	{
 		return null;
-		
+
 	}
-	
+
 	public String getDisplayName(User user) 
 	{
 
 		m_logger.debug("getDisplayUser(" + user.getId() + ")");
 		if (m_sService.getBoolean("udp.useUserAlias", false) ) {
-		try {
-			Placement placement = ToolManager.getCurrentPlacement();
-			String presentSiteId = "/site/" + placement.getContext();
-			
-			if (userAliasLogic.realmIsAliased(presentSiteId)) {
+			try {
+				Placement placement = ToolManager.getCurrentPlacement();
+				String presentSiteId = "/site/" + placement.getContext();
+
+				if (userAliasLogic.realmIsAliased(presentSiteId)) {
 					UserAliasItem ua = userAliasLogic.getUserAliasItemByIdForContext(user.getId(), presentSiteId);
 					if (ua != null && (ua.getFirstName() != null || ua.getLastName() != null )) {
 						String fn = "";
@@ -775,21 +775,21 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 						String ln = "";
 						if (ua.getLastName() != null)
 							ln = ua.getLastName();
-					
+
 						return fn + " " + ln;
 					}
+				}
+
 			}
-			
-		}
-		catch (Exception e) {
-			m_logger.warn("Cannot resolve name: " + e.toString());
-			if (m_logger.isDebugEnabled())
-				e.printStackTrace();
-		}
+			catch (Exception e) {
+				m_logger.warn("Cannot resolve name: " + e.toString());
+				if (m_logger.isDebugEnabled())
+					e.printStackTrace();
+			}
 		}
 		return null;
-		
-	
+
+
 
 	}
 
@@ -797,31 +797,30 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 		m_logger.debug("getDisplayName(" + user.getId() + " , " + context +")");
 		//this is a realm id not a site id
 		if (!context.startsWith("/site/"));
-				context="/site/" + context;
-		
-				m_logger.debug("getDisplayName(User user, String context) for context: " + context);
+		context="/site/" + context;
+
 		if (m_sService.getBoolean("udp.useUserAlias", false) && userAliasLogic.realmIsAliased(context) ) {
 			try {
-					UserAliasItem ua = userAliasLogic.getUserAliasItemByIdForContext(user.getId(), context);
-					if (ua != null && (ua.getFirstName() != null || ua.getLastName() != null )) {
-						String fn = "";
-						if (ua.getFirstName() != null)
-							fn = ua.getFirstName();
-						String ln = "";
-						if (ua.getLastName() != null)
-							ln = ua.getLastName();
-						
-						return fn + " " + ln;
-					}
-				
+				UserAliasItem ua = userAliasLogic.getUserAliasItemByIdForContext(user.getId(), context);
+				if (ua != null && (ua.getFirstName() != null || ua.getLastName() != null )) {
+					String fn = "";
+					if (ua.getFirstName() != null)
+						fn = ua.getFirstName();
+					String ln = "";
+					if (ua.getLastName() != null)
+						ln = ua.getLastName();
+
+					return fn + " " + ln;
+				}
+
 			}
 			catch (Exception e) {
 				m_logger.warn("Cannot resolve name: " + e.toString());
 				if (m_logger.isDebugEnabled())
 					e.printStackTrace();
 			}
-			}
-			return null;
+		}
+		return null;
 	}
 
 }
