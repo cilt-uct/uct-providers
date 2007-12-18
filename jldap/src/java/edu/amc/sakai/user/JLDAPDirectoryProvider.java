@@ -760,6 +760,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 	public String getDisplayName(User user) 
 	{
 
+		m_logger.debug("getDisplayUser(" + user.getId() + ")");
 		if (m_sService.getBoolean("udp.useUserAlias", false) ) {
 		try {
 			Placement placement = ToolManager.getCurrentPlacement();
@@ -781,7 +782,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 			
 		}
 		catch (Exception e) {
-			m_logger.warn("Cannot resolve name: " + e.getLocalizedMessage());
+			m_logger.warn("Cannot resolve name: " + e.toString());
 			if (m_logger.isDebugEnabled())
 				e.printStackTrace();
 		}
@@ -793,7 +794,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 	}
 
 	public String getDisplayName(User user, String context) {
-		
+		m_logger.debug("getDisplayName(" + user.getId() + " , " + context +")");
 		//this is a realm id not a site id
 		if (!context.startsWith("/site/"));
 				context="/site/" + context;
@@ -815,7 +816,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 				
 			}
 			catch (Exception e) {
-				m_logger.warn("Cannot resolve name: " + e.getMessage());
+				m_logger.warn("Cannot resolve name: " + e.toString());
 				if (m_logger.isDebugEnabled())
 					e.printStackTrace();
 			}
