@@ -765,8 +765,13 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 			try {
 				Placement placement = ToolManager.getCurrentPlacement();
 				String presentSiteId = null; 
-				if ( placement.getContext() != null)
+				if ( placement.getContext() != null) {
 					presentSiteId = "/site/" + placement.getContext();
+				} else {
+					m_logger.info("Context not available for getDisplayName: " + user.getEid());
+					return null;
+				}
+				
 
 				if (presentSiteId != null && userAliasLogic.realmIsAliased(presentSiteId)) {
 					UserAliasItem ua = userAliasLogic.getUserAliasItemByIdForContext(user.getId(), presentSiteId);
