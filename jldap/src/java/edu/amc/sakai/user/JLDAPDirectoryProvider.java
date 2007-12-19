@@ -765,7 +765,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 			try {
 				Placement placement = ToolManager.getCurrentPlacement();
 				String presentSiteId = null; 
-				if ( placement.getContext() != null) {
+				if ( placement != null && placement.getContext() != null) {
 					presentSiteId = "/site/" + placement.getContext();
 				} else {
 					m_logger.info("Context not available for getDisplayName: " + user.getEid());
@@ -789,7 +789,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 
 			}
 			catch (Exception e) {
-				m_logger.warn("Cannot resolve name: " + e.toString());
+				m_logger.warn("getDisplayName(User user) Cannot resolve name: " + e.toString());
 				if (m_logger.isDebugEnabled())
 					e.printStackTrace();
 			}
@@ -804,7 +804,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 		m_logger.debug("getDisplayName(" + user.getId() + " , " + context +")");
 		//this is a realm id not a site id
 		if (!context.startsWith("/site/"));
-		context="/site/" + context;
+			context="/site/" + context;
 
 		if (m_sService.getBoolean("udp.useUserAlias", false) && userAliasLogic.realmIsAliased(context) ) {
 			try {
@@ -822,7 +822,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 
 			}
 			catch (Exception e) {
-				m_logger.warn("Cannot resolve name: " + e.toString());
+				m_logger.warn("getDisplayName(User user, String Context) Cannot resolve name: " + e.toString());
 				if (m_logger.isDebugEnabled())
 					e.printStackTrace();
 			}
