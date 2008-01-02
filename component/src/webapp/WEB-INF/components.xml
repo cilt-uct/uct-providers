@@ -99,6 +99,7 @@
 									</map>
 								</property>
 							</bean>
+							<!-- This now causes duplicate entries in site action - all students should be in the section
 							<bean class="org.sakaiproject.coursemanagement.impl.provider.CourseOfferingRoleResolver">
 								<property name="roleMap">
 									<map>
@@ -106,7 +107,7 @@
                                        <entry key="Student" value="Student" />
 									</map>
 								</property>
-							</bean>
+							</bean> -->
 							<bean class="org.sakaiproject.coursemanagement.impl.provider.CourseSetRoleResolver">
 								<property name="roleMap">
 									<map>
