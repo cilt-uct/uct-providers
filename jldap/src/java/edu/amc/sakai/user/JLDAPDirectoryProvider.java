@@ -768,7 +768,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 				if ( placement != null && placement.getContext() != null) {
 					presentSiteId = "/site/" + placement.getContext();
 				} else {
-					m_logger.info("Context not available for getDisplayName: " + user.getEid());
+					m_logger.debug("Context not available for getDisplayName: " + user.getEid());
 					return null;
 				}
 				
