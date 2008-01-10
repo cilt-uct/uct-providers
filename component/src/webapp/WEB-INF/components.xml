@@ -79,6 +79,7 @@
 							<value>Support staff</value>
 							<value>Tutor</value>
 							<value>Student</value>
+							<value>Participant</value>
 						</list>
 					</property>
 					<property name="roleResolvers">
@@ -88,6 +89,7 @@
 									<map>
 										<entry key="I" value="Lecturer" />
 										<entry key="Student" value="Student" />
+										<entry key="Participant" value="Participant" />
 										<entry key="GSI" value="Teaching Assistant"/>
 									</map>
 								</property>
