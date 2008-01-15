@@ -189,6 +189,16 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 			return false;
 		}
 
+		//If the UserDirectoryService did not find a Sakai-managed user
+		//record before calling this method, then that means there's no
+		//local account corresponding to the LDAP login ID.
+		if ((edit.getId() == null))
+		{
+			m_logger.debug("authenticateUser(): user " + userLogin + " not filled in by caller, returning false");
+			return false;
+		} 
+		
+		
 		// make sure password contains some value
 		if (password.length() == 0){
 			if (logAuthFailure) 
