@@ -35,7 +35,9 @@
 package edu.amc.sakai.user;
 
 import java.security.MessageDigest;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -182,6 +184,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 	public boolean authenticateUser(String userLogin, UserEdit edit, String password){
 		m_logger.debug(this +".authenticateUser(): " + userLogin); 
 
+		Calendar calAuthStart = Calendar.getInstance();
 		// Don't use LDAP auth if the userLogin contains '@' or is admin or contains * the LDAP wildecard
 		if ((userLogin.indexOf("@") != -1) || userLogin.equals("admin") || userLogin.equals("*")|| userLogin.equalsIgnoreCase(("guest"))) 
 		{
@@ -304,7 +307,8 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 
 					if (logAuthSuccess)
 					{
-						m_logger.info("Authenticated " + userLogin + " (" + thisDn + ") from LDAP");
+						Calendar calAuthEnd = Calendar.getInstance();
+						m_logger.info("Authenticated " + userLogin + " (" + thisDn + ") from LDAP in " + calAuthEnd.compareTo(calAuthStart) +" ms");
 					}		
 
 					//seing these are now diferent servers we no longer set this here
