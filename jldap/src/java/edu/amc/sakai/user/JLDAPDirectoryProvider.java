@@ -184,7 +184,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 	public boolean authenticateUser(String userLogin, UserEdit edit, String password){
 		m_logger.debug(this +".authenticateUser(): " + userLogin); 
 
-		Calendar calAuthStart = Calendar.getInstance();
+		long authStart = System.currentTimeMillis();
 		// Don't use LDAP auth if the userLogin contains '@' or is admin or contains * the LDAP wildecard
 		if ((userLogin.indexOf("@") != -1) || userLogin.equals("admin") || userLogin.equals("*")|| userLogin.equalsIgnoreCase(("guest"))) 
 		{
@@ -307,8 +307,9 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 
 					if (logAuthSuccess)
 					{
-						Calendar calAuthEnd = Calendar.getInstance();
-						m_logger.info("Authenticated " + userLogin + " (" + thisDn + ") from LDAP in " + calAuthEnd.compareTo(calAuthStart) +" ms");
+						
+						long authTime = System.currentTimeMillis() - authStart;
+						m_logger.info("Authenticated " + userLogin + " (" + thisDn + ") from LDAP in " + authTime + " ms");
 					}		
 
 					//seing these are now diferent servers we no longer set this here
