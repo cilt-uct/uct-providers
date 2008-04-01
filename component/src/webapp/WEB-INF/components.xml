@@ -80,6 +80,7 @@
 							<value>Tutor</value>
 							<value>Student</value>
 							<value>Participant</value>
+							<value>Observer</value>
 						</list>
 					</property>
 					<property name="roleResolvers">
