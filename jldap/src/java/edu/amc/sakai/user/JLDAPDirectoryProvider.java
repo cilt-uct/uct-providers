@@ -425,7 +425,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 			conn.connect( ldapHost, ldapPort );
 			//this will fail if user does not exist	
 			LDAPEntry userEntry = getEntryFromDirectory(sFilter,attrList,conn);			
-			conn.disconnect();\
+			conn.disconnect();
 			//a null indicates no error but no reult
 			if (userEntry == null)
 				return false;
