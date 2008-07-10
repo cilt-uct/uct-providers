@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="jldap/src/java"/>
+	<classpathentry kind="src" path="cm/cm-authz-provider/src/java"/>
+	<classpathentry kind="src" path="cm/cm-cm-provider/src/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="var" path="M2_REPO/commons-logging/commons-logging/1.1/commons-logging-1.1.jar"/>
 	<classpathentry kind="var" path="M2_REPO/openldap/ldap/2005.03.29/ldap-2005.03.29.jar"/>
