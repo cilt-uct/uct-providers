@@ -68,7 +68,10 @@
     <dependency>
       <groupId>org.sakaiproject</groupId>
       <artifactId>sakai-useralias-logic-api</artifactId>
-     
+    </dependency>
+   <dependency>
+      <groupId>org.sakaiproject</groupId>
+      <artifactId>sakai-useralias-model-api</artifactId>
     </dependency>
     <dependency>
       <groupId>org.sakaiproject</groupId>
