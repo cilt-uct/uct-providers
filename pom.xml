@@ -17,11 +17,7 @@
     <module>cm/cm-cm-provider</module>
     <module>component</module>
     <module>jldap</module>
-    
-  </modules>
-  
-  
-  
+ </modules>
   	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -37,5 +33,4 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-  
 </project>
