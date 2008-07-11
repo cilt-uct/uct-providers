@@ -8,6 +8,7 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
   <name>Sakai Providers Project</name>
+  <version>3.0-SNAPSHOT</version>
   <groupId>org.sakaiproject</groupId>
   <artifactId>providers-base</artifactId>
   <packaging>pom</packaging>
@@ -16,6 +17,6 @@
     <module>cm/cm-cm-provider</module>
     <module>component</module>
     <module>jldap</module>
-    <!-- <module>sample</module> -->
+    
   </modules>
 </project>
