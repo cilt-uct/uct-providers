@@ -121,6 +121,8 @@ public class SectionRoleResolver implements RoleResolver {
 			Section section = (Section)secIter.next();
 			if (! section.getEid().contains(",2008")) {
 				log.warn("section " + section.getEid() + " is not in the current section skipping");
+				//remove the section from the role map
+				groupRoleMap.remove(section.getEid());
 				continue;
 			}
 				
