@@ -20,9 +20,11 @@
  **********************************************************************************/
 package org.sakaiproject.coursemanagement.impl.provider;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -110,11 +112,18 @@ public class SectionRoleResolver implements RoleResolver {
 			groupRoleMap.put(key, convertRole((String)groupRoleMap.get(key)));
 		}
 
+		List ac = cmService.getCurrentAcademicSessions();
+		
 		// Next add all enrollments to the sectionEid->role map, overriding memberships
 		Set enrolledSections = cmService.findEnrolledSections(userEid);
 		if(log.isDebugEnabled()) log.debug("Found " + enrolledSections.size() + " currently enrolled sections for user " + userEid);
 		for(Iterator secIter = enrolledSections.iterator(); secIter.hasNext();) {
 			Section section = (Section)secIter.next();
+			if (! section.getEid().contains(",2008")) {
+				log.warn("section " + section.getEid() + " is not in the current section skipping");
+				continue;
+			}
+				
 			if(log.isDebugEnabled()) log.debug(userEid + " is enrolled in an enrollment set attached to section " + section.getEid());
 			// TODO Calling this for every section  is inefficient -- add new method to CM service?
 			Enrollment enr = cmService.findEnrollment(userEid, section.getEnrollmentSet().getEid());
