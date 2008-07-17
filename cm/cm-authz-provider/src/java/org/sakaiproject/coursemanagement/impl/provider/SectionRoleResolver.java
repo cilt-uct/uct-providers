@@ -119,13 +119,7 @@ public class SectionRoleResolver implements RoleResolver {
 		if(log.isDebugEnabled()) log.debug("Found " + enrolledSections.size() + " currently enrolled sections for user " + userEid);
 		for(Iterator secIter = enrolledSections.iterator(); secIter.hasNext();) {
 			Section section = (Section)secIter.next();
-			if (! section.getEid().contains(",2008")) {
-				log.warn("section " + section.getEid() + " is not in the current section skipping");
-				//remove the section from the role map
-				groupRoleMap.remove(section.getEid());
-				continue;
-			}
-				
+
 			if(log.isDebugEnabled()) log.debug(userEid + " is enrolled in an enrollment set attached to section " + section.getEid());
 			// TODO Calling this for every section  is inefficient -- add new method to CM service?
 			Enrollment enr = cmService.findEnrollment(userEid, section.getEnrollmentSet().getEid());
