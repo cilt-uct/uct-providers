@@ -112,9 +112,9 @@ public class SectionRoleResolver implements RoleResolver {
 			groupRoleMap.put(key, convertRole((String)groupRoleMap.get(key)));
 		}
 
-		List ac = cmService.getCurrentAcademicSessions();
 		
 		// Next add all enrollments to the sectionEid->role map, overriding memberships
+		/* at UCT users have membership so nerf this
 		Set enrolledSections = cmService.findEnrolledSections(userEid);
 		if(log.isDebugEnabled()) log.debug("Found " + enrolledSections.size() + " currently enrolled sections for user " + userEid);
 		for(Iterator secIter = enrolledSections.iterator(); secIter.hasNext();) {
@@ -130,7 +130,8 @@ public class SectionRoleResolver implements RoleResolver {
 				groupRoleMap.put(section.getEid(), roleFromEnrollmentStatus);
 			}
 		}
-
+		*/
+		
 		// Finally, add the official instructors, overriding any other roles if necessary
 		Set instructingSections = cmService.findInstructingSections(userEid);
 		for(Iterator iter = instructingSections.iterator(); iter.hasNext();) {
