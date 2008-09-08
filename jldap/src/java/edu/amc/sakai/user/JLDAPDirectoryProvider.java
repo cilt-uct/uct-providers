@@ -779,73 +779,8 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 	{
 
 		m_logger.debug("getDisplayUser(" + user.getId() + ")");
-		if (m_sService.getBoolean("udp.useUserAlias", false) ) {
-			try {
-				Placement placement = ToolManager.getCurrentPlacement();
-				String presentSiteId = null; 
-				if ( placement != null && placement.getContext() != null) {
-					presentSiteId = "/site/" + placement.getContext();
-				} else {
-					m_logger.debug("Context not available for getDisplayName: " + user.getEid());
-					return null;
-				}
-				
-
-				if (presentSiteId != null && userAliasLogic.realmIsAliased(presentSiteId)) {
-					UserAliasItem ua = userAliasLogic.getUserAliasItemByIdForContext(user.getId(), presentSiteId);
-					if (ua != null && (ua.getFirstName() != null || ua.getLastName() != null )) {
-						String fn = "";
-						if (ua.getFirstName() != null)
-							fn = ua.getFirstName();
-						String ln = "";
-						if (ua.getLastName() != null)
-							ln = ua.getLastName();
-
-						return fn + " " + ln;
-					}
-				}
-
-			}
-			catch (Exception e) {
-				m_logger.warn("getDisplayName(User user) Cannot resolve name: " + e.toString());
-				if (m_logger.isDebugEnabled())
-					e.printStackTrace();
-			}
-		}
 		return null;
+}
 
-
-
-	}
-
-	public String getDisplayName(User user, String context) {
-		m_logger.debug("getDisplayName(" + user.getId() + " , " + context +")");
-		//this is a realm id not a site id
-		if (!context.startsWith("/site/"));
-			context="/site/" + context;
-
-		if (m_sService.getBoolean("udp.useUserAlias", false) && userAliasLogic.realmIsAliased(context) ) {
-			try {
-				UserAliasItem ua = userAliasLogic.getUserAliasItemByIdForContext(user.getId(), context);
-				if (ua != null && (ua.getFirstName() != null || ua.getLastName() != null )) {
-					String fn = "";
-					if (ua.getFirstName() != null)
-						fn = ua.getFirstName();
-					String ln = "";
-					if (ua.getLastName() != null)
-						ln = ua.getLastName();
-
-					return fn + " " + ln;
-				}
-
-			}
-			catch (Exception e) {
-				m_logger.warn("getDisplayName(User user, String Context) Cannot resolve name: " + e.toString());
-				if (m_logger.isDebugEnabled())
-					e.printStackTrace();
-			}
-		}
-		return null;
-	}
 
 }
