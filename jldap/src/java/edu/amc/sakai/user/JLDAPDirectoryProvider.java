@@ -91,7 +91,7 @@ import java.util.Vector;
 import java.util.ListIterator;
  *******/
 
-public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdvisorUDP {
+public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 	private String ldapHost = ""; //address of ldap server
 	private int ldapPort = 389; //port to connect to ldap server on
 	private String keystoreLocation = ""; // keystore location (only needed for SSL connections)
@@ -767,20 +767,6 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider, DisplayAdv
 	{
 		return false;
 	}
-
-	// display Advisor methods
-	public String getDisplayId(User user)
-	{
-		return null;
-
-	}
-
-	public String getDisplayName(User user) 
-	{
-
-		m_logger.debug("getDisplayUser(" + user.getId() + ")");
-		return null;
-}
 
 
 }
