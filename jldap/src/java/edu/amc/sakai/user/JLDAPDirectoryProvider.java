@@ -35,47 +35,32 @@
 package edu.amc.sakai.user;
 
 import java.security.MessageDigest;
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
-import java.util.Hashtable;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.List;
-
-import org.sakaiproject.user.api.User;
-import org.sakaiproject.user.api.UserDirectoryProvider;
-import org.sakaiproject.user.api.UserEdit;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.sakaiproject.component.api.ServerConfigurationService;
+import org.sakaiproject.db.api.SqlService;
+import org.sakaiproject.site.api.SiteService;
+import org.sakaiproject.user.api.UserDirectoryProvider;
+import org.sakaiproject.user.api.UserEdit;
+import org.sakaiproject.useralias.logic.UserAliasLogic;
 
+import sun.misc.BASE64Encoder;
+
+import com.novell.ldap.LDAPAttribute;
 import com.novell.ldap.LDAPConnection;
+import com.novell.ldap.LDAPConstraints;
 import com.novell.ldap.LDAPEntry;
 import com.novell.ldap.LDAPException;
 import com.novell.ldap.LDAPJSSESecureSocketFactory;
 import com.novell.ldap.LDAPSearchConstraints;
 import com.novell.ldap.LDAPSearchResults;
 import com.novell.ldap.LDAPSocketFactory;
-import com.novell.ldap.LDAPConstraints;
-import com.novell.ldap.LDAPAttribute;
-
-import org.sakaiproject.user.api.User;
-import org.sakaiproject.db.api.SqlService;
-import org.sakaiproject.user.api.DisplayAdvisorUDP;
-import org.sakaiproject.tool.api.Placement;
-//import org.sakaiproject.tool.api.Session;
-//import org.sakaiproject.tool.cover.SessionManager;
-import org.sakaiproject.tool.cover.ToolManager;
-import org.sakaiproject.site.api.SiteService;
-import org.sakaiproject.site.api.Site;
-import org.sakaiproject.component.api.ServerConfigurationService; 
-import org.sakaiproject.useralias.logic.UserAliasLogic;
-import org.sakaiproject.useralias.model.UserAliasItem;
-
-
-import sun.misc.BASE64Encoder;
 
 
 //following imports are only needed if you are doing group membership -> sakai type matching (see section in getUser())
