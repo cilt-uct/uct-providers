@@ -1,129 +1,170 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:util="http://www.springframework.org/schema/util"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
     http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
-
-
-
-<!--    Uncomment and configure to use the JLDAP Provider.
-                Default values below point to a test account at nldap.com (free ldap test server). 
-                To login with the nldap.com test account -      username: ldap-admin 
-                                                                password: admin
-                
-                 Make sure to remove any other UserDirectoryProviders as there can only be one user provider active at any time.
--->
-	<bean id="org.sakaiproject.user.api.UserDirectoryProvider"
-			class="edu.amc.sakai.user.JLDAPDirectoryProvider"
-			init-method="init"
-			destroy-method="destroy">
-		<property name="ldapHost"><value>srvslsath001.uct.ac.za srvslsath002.uct.ac.za srvslsadm001.uct.ac.za srvnovnds001.uct.ac.za srvslsnds001.uct.ac.za</value></property>
-		<property name="ldapPort"><value>636</value></property> 
-		<property name="secureConnection"><value>true</value></property>
-		<!-- <property name="keystoreLocation"><value>/usr/local/sakai/keystore</value></property>
-		<property name="keystorePassword"><value>changeit</value></property>-->
-		<property name="basePath"><value>o=uct</value></property>
-		<property name="operationTimeout"><value>5000</value></property>
-		<property name="cacheTTL"><value>300000</value></property>
-		<property name="cacheTTLF"><value>30000</value></property>
-		<property name="logAuthSuccess"><value>false</value></property>
-		<property name="logAuthFailure"><value>true</value></property>
-		<property name="userAliasLogic"><ref bean="org.sakaiproject.useralias.logic.UserAliasLogic" /></property>
-		<property name="siteService"><ref bean="org.sakaiproject.site.api.SiteService" /></property>
+	<!--
+		Uncomment and configure to use the JLDAP Provider. Default values
+		below point to a test account at nldap.com (free ldap test server). To
+		login with the nldap.com test account - username: ldap-admin password:
+		admin Make sure to remove any other UserDirectoryProviders as there
+		can only be one user provider active at any time.
+	-->
+	<bean id="org.sakaiproject.user.api.UserDirectoryProvider" class="edu.amc.sakai.user.JLDAPDirectoryProvider"
+		init-method="init" destroy-method="destroy">
+		<property name="ldapHost">
+			<value>srvslsath001.uct.ac.za srvslsath002.uct.ac.za srvslsadm001.uct.ac.za srvnovnds001.uct.ac.za srvslsnds001.uct.ac.za</value>
+		</property>
+		<property name="ldapPort">
+			<value>636</value>
+		</property>
+		<property name="secureConnection">
+			<value>true</value>
+		</property>
+		<!--
+			<property
+			name="keystoreLocation"><value>/usr/local/sakai/keystore</value></property>
+			<property name="keystorePassword"><value>changeit</value></property>
+		-->
+		<property name="basePath">
+			<value>o=uct</value>
+		</property>
+		<property name="operationTimeout">
+			<value>5000</value>
+		</property>
+		<property name="cacheTTL">
+			<value>300000</value>
+		</property>
+		<property name="cacheTTLF">
+			<value>30000</value>
+		</property>
+		<property name="logAuthSuccess">
+			<value>false</value>
+		</property>
+		<property name="logAuthFailure">
+			<value>true</value>
+		</property>
+		<property name="userAliasLogic">
+			<ref bean="org.sakaiproject.useralias.logic.UserAliasLogic" />
+		</property>
+		<property name="siteService">
+			<ref bean="org.sakaiproject.site.api.SiteService" />
+		</property>
 		<property name="attributeMappings">
 			<map>
-				<entry key="login"><value>cn</value></entry>    
-				<entry key="distinguishedName"><value>dn</value></entry>        
-				<entry key="firstName"><value>givenName</value></entry> 
-				<entry key="lastName"><value>sn</value></entry> 
-				<entry key="email"><value>mail</value></entry>  
-				<entry key="groupMembership"><value>groupMembership</value></entry>     
+				<entry key="login">
+					<value>cn</value>
+				</entry>
+				<entry key="distinguishedName">
+					<value>dn</value>
+				</entry>
+				<entry key="firstName">
+					<value>givenName</value>
+				</entry>
+				<entry key="lastName">
+					<value>sn</value>
+				</entry>
+				<entry key="email">
+					<value>mail</value>
+				</entry>
+				<entry key="groupMembership">
+					<value>groupMembership</value>
+				</entry>
 			</map>
 		</property>
 		<property name="sqlService">
-				<ref bean="org.sakaiproject.db.api.SqlService"/>
-			</property>
-			<property name="serverConfigurationService">
-				<ref bean="org.sakaiproject.component.api.ServerConfigurationService"/>
-			</property>
-    </bean>
-
-<!--
-		Proxy pointing to whichever Group Provider implementation has been assigned
-		the property name "org.sakaiproject.authz.api.GroupProvider". By default, it points to
+			<ref bean="org.sakaiproject.db.api.SqlService" />
+		</property>
+		<property name="serverConfigurationService">
+			<ref bean="org.sakaiproject.component.api.ServerConfigurationService" />
+		</property>
+	</bean>
+	<!--
+		Proxy pointing to whichever Group Provider implementation has been
+		assigned the property name "org.sakaiproject.authz.api.GroupProvider".
+		By default, it points to
 		"org.sakaiproject.coursemanagement.impl.provider.CourseManagementGroupProvider".
-		If you use a different Group Provider, there's no need to edit this file.
-		Instead, just use your "sakai.properties" file to point the property to your
-		implementation.
+		If you use a different Group Provider, there's no need to edit this
+		file. Instead, just use your "sakai.properties" file to point the
+		property to your implementation.
 	-->
 	<bean id="org.sakaiproject.authz.api.GroupProvider" class="org.springframework.aop.framework.ProxyFactoryBean">
 		<property name="targetName" value="${org.sakaiproject.authz.api.GroupProvider}" />
 		<property name="proxyInterfaces">
 			<list>
-                <value>org.sakaiproject.authz.api.GroupProvider</value>
+				<value>org.sakaiproject.authz.api.GroupProvider</value>
 			</list>
 		</property>
 	</bean>
-
 	<!--
 		Configuration object which can safely be overridden by a deployment's
 		sakai-configuration.xml file.
 	-->
-	<util:map id="org.sakaiproject.coursemanagement.GroupProviderConfiguration">
+	<util:map
+		id="org.sakaiproject.coursemanagement.GroupProviderConfiguration">
 		<entry key="siteRoleResolutionOrder">
 			<list>
-				<value>Instructor</value>
-				<value>Teaching Assistant</value>
+				<value>Site owner</value>
+				<value>Lecturer</value>
+				<value>Support staff</value>
+				<value>Tutor</value>
 				<value>Student</value>
+				<value>Participant</value>
+				<value>Observer</value>
 			</list>
 		</entry>
-		<entry key="officialInstructorToSiteRole" value="Instructor"/>
+		<entry key="officialInstructorToSiteRole" value="Instructor" />
 		<entry key="enrollmentStatusToSiteRole">
 			<map>
-				<entry key="enrolled" value="Student"/>
-				<entry key="wait" value="Student"/>
+				<entry key="enrolled" value="Student" />
+				<entry key="wait" value="Student" />
 			</map>
 		</entry>
 		<entry key="sectionRoleToSiteRole">
 			<map>
-				<entry key="I" value="Instructor"/>
-				<entry key="GSI" value="Teaching Assistant"/>
-				<entry key="S" value="Student"/>
+				<entry key="I" value="Instructor" />
+				<entry key="GSI" value="Teaching Assistant" />
+				<entry key="Student" value="Student" />
+				<entry key="Participant" value="Participant" />
 			</map>
 		</entry>
 		<entry key="courseOfferingRoleToSiteRole">
 			<map>
-				<entry key="CourseAdmin" value="Instructor"/>
-				<entry key="I" value="Instructor"/>
+				<entry key="CourseAdmin" value="Instructor" />
+				<entry key="I" value="Instructor" />
 			</map>
 		</entry>
 		<entry key="courseSetRoleToSiteRole">
 			<map>
-				<entry key="DeptAdmin" value="Instructor"/>
+				<entry key="DeptAdmin" value="Support Staff" />
+				<entry key="Observer" value="Observer" />
+				<entry key="Lecturer" value="Lecturer" />
 			</map>
 		</entry>
 	</util:map>
 	
 	<!-- Course Management site role and group provider services. -->
 	<!--
-		TODO These bean definitions should really be kept within the project itself
-		for easier maintenance and testing. We continue to expose them here for
-		the sake of easier customization merging in Sakai 2.* versions.
+		TODO These bean definitions should really be kept within the project
+		itself for easier maintenance and testing. We continue to expose them
+		here for the sake of easier customization merging in Sakai 2.*
+		versions.
 	-->
 	<!--
 		The default group provider is based on the Course Management service,
 		and calls the service many times. Since the default Course Management
 		implementation uses Hibernate, we wrap the service in a transaction
 		proxy to take advantage of Hibernate's session-level caching. If you
-		use a different CM implementation, you should ensure that it also performs
-		aggressive caching.
+		use a different CM implementation, you should ensure that it also
+		performs aggressive caching.
 	-->
-	<bean id="org.sakaiproject.coursemanagement.impl.provider.CourseManagementGroupProvider"
+	<bean
+		id="org.sakaiproject.coursemanagement.impl.provider.CourseManagementGroupProvider"
 		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean"
 		lazy-init="true">
 		<property name="transactionManager">
-			<ref bean="org.sakaiproject.springframework.orm.hibernate.GlobalTransactionManager"/>
+			<ref
+				bean="org.sakaiproject.springframework.orm.hibernate.GlobalTransactionManager" />
 		</property>
 		<property name="transactionAttributes">
 			<props>
@@ -131,27 +172,36 @@
 			</props>
 		</property>
 		<property name="target">
-			<bean class="org.sakaiproject.coursemanagement.impl.provider.CourseManagementGroupProvider"
-				init-method="init"
-				destroy-method="destroy">
-				<property name="cmService" ref="org.sakaiproject.coursemanagement.api.CourseManagementService"/>
-				<property name="configuration" ref="org.sakaiproject.coursemanagement.GroupProviderConfiguration"/>
+			<bean
+				class="org.sakaiproject.coursemanagement.impl.provider.CourseManagementGroupProvider"
+				init-method="init" destroy-method="destroy">
+				<property name="cmService"
+					ref="org.sakaiproject.coursemanagement.api.CourseManagementService" />
+				<property name="configuration"
+					ref="org.sakaiproject.coursemanagement.GroupProviderConfiguration" />
 				<property name="roleResolvers">
 					<list>
-						<bean class="org.sakaiproject.coursemanagement.impl.provider.SectionRoleResolver" init-method="init">
-							<property name="configuration" ref="org.sakaiproject.coursemanagement.GroupProviderConfiguration"/>
+						<bean
+							class="org.sakaiproject.coursemanagement.impl.provider.SectionRoleResolver"
+							init-method="init">
+							<property name="configuration"
+								ref="org.sakaiproject.coursemanagement.GroupProviderConfiguration" />
 						</bean>
-						<bean class="org.sakaiproject.coursemanagement.impl.provider.CourseOfferingRoleResolver" init-method="init">
-							<property name="configuration" ref="org.sakaiproject.coursemanagement.GroupProviderConfiguration"/>
+						<bean
+							class="org.sakaiproject.coursemanagement.impl.provider.CourseOfferingRoleResolver"
+							init-method="init">
+							<property name="configuration"
+								ref="org.sakaiproject.coursemanagement.GroupProviderConfiguration" />
 						</bean>
-						<bean class="org.sakaiproject.coursemanagement.impl.provider.CourseSetRoleResolver" init-method="init">
-							<property name="configuration" ref="org.sakaiproject.coursemanagement.GroupProviderConfiguration"/>
+						<bean
+							class="org.sakaiproject.coursemanagement.impl.provider.CourseSetRoleResolver"
+							init-method="init">
+							<property name="configuration"
+								ref="org.sakaiproject.coursemanagement.GroupProviderConfiguration" />
 						</bean>
 					</list>
 				</property>
 			</bean>
 		</property>
 	</bean>
-
-
 </beans>
