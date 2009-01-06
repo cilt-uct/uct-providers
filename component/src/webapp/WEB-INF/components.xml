@@ -107,6 +107,7 @@
 				<value>Site owner</value>
 				<value>Lecturer</value>
 				<value>Support staff</value>
+				<value>Librarian</value>
 				<value>Tutor</value>
 				<value>Student</value>
 				<value>Participant</value>
@@ -139,6 +140,7 @@
 				<entry key="DeptAdmin" value="Support Staff" />
 				<entry key="Observer" value="Observer" />
 				<entry key="Lecturer" value="Lecturer" />
+				<entry key="Librarian" value="Librarian" />
 			</map>
 		</entry>
 	</util:map>
