@@ -174,10 +174,6 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 			return false;
 		}
 		
-		//don't authenticate any members of the admin group
-		if (securityService.isSuperUser(edit.getId())) 
-			return false;
-
 		//If the UserDirectoryService did not find a Sakai-managed user
 		//record before calling this method, then that means there's no
 		//local account corresponding to the LDAP login ID.
@@ -186,7 +182,6 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 			m_logger.debug("authenticateUser(): user " + userLogin + " not filled in by caller, returning false");
 			return false;
 		} 
-		
 		
 		// make sure password contains some value
 		if (password.length() == 0){
@@ -197,6 +192,12 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 			return false;
 		}
 
+		//don't authenticate any members of the admin group
+		if (securityService.isSuperUser(edit.getId())) {
+			m_logger.info("user is superuser!" + edit.getEid());
+			return false;
+		}
+		
 		UserData existingUser = (UserData) users.get(userLogin);
 
 		boolean authUser = false;
