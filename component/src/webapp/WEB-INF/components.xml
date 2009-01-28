@@ -72,12 +72,10 @@
 				</entry>
 			</map>
 		</property>
-		<property name="sqlService">
-			<ref bean="org.sakaiproject.db.api.SqlService" />
-		</property>
 		<property name="serverConfigurationService">
 			<ref bean="org.sakaiproject.component.api.ServerConfigurationService" />
 		</property>
+		<property name="securityService" ref="org.sakaiproject.authz.api.SecurityService"/>
 	</bean>
 	<!--
 		Proxy pointing to whichever Group Provider implementation has been

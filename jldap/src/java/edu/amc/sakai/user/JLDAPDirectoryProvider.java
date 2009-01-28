@@ -43,8 +43,8 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.sakaiproject.authz.api.SecurityService;
 import org.sakaiproject.component.api.ServerConfigurationService;
-import org.sakaiproject.db.api.SqlService;
 import org.sakaiproject.site.api.SiteService;
 import org.sakaiproject.user.api.UserDirectoryProvider;
 import org.sakaiproject.user.api.UserEdit;
@@ -103,9 +103,6 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 	/* Dependency: logging service */  	
 	private static Log m_logger = LogFactory.getLog(JLDAPDirectoryProvider.class);
 
-	/** Dependency: SqlService */
-	protected SqlService m_sqlService = null;
-
 	/** Configuration: Cache TTL for positive auth caching (ms, defaults to 5 minutes) */
 	protected int m_cachettl = 5 * 60 * 1000;
 
@@ -123,11 +120,6 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 		attributeMappings.put("distinguishedName","dn");	
 	}
 
-	public void setSqlService(SqlService service)
-	{
-		m_sqlService = service;
-	}
-
 	public void setServerConfigurationService(ServerConfigurationService service)
 	{
 		m_sService = service;
@@ -141,6 +133,11 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 	private SiteService siteService;
 	public void setSiteService(SiteService ss) {
 		siteService = ss;
+	}
+
+	private SecurityService securityService;
+	public void setSecurityService(SecurityService securityService) {
+		this.securityService = securityService;
 	}
 
 	public void init()  
@@ -176,6 +173,10 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 			// Thread.sleep(500);
 			return false;
 		}
+		
+		//don't authenticate any members of the admin group
+		if (securityService.isSuperUser(edit.getId())) 
+			return false;
 
 		//If the UserDirectoryService did not find a Sakai-managed user
 		//record before calling this method, then that means there's no
