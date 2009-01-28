@@ -194,7 +194,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 
 		//don't authenticate any members of the admin group
 		if (securityService.isSuperUser(edit.getId())) {
-			m_logger.info("user is superuser!" + edit.getEid());
+			m_logger.debug("user is superuser!: " + edit.getEid());
 			return false;
 		}
 		
