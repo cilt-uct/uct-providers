@@ -493,7 +493,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 	public void setLogAuthSuccess(String value) {
 		try
 		{
-			this.logAuthSuccess = new Boolean(value).booleanValue();
+			this.logAuthSuccess = Boolean.valueOf(value).booleanValue();
 		}
 		catch (Exception any)
 		{
@@ -508,7 +508,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 	public void setLogAuthFailure(String value) {
 		try
 		{
-			this.logAuthFailure = new Boolean(value).booleanValue();
+			this.logAuthFailure = Boolean.valueOf(value).booleanValue();
 		}
 		catch (Exception any)
 		{
