@@ -92,13 +92,13 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 	private boolean logAuthFailure = true;   // log unsuccessful authentication
 
 	/* Hashmap of attribute mappings */
-	private HashMap attributeMappings = new HashMap();
+	private HashMap<String, String> attributeMappings = new HashMap<String, String>();
 
 	/* Hashtable of users that have successfully logged in...
 	 * we pull their details from here instead of the directory on subsequent requests
 	 * we will also expire their details after a default five minutes or so
 	 */
-	private Hashtable users = new Hashtable();
+	private Hashtable<String, UserData> users = new Hashtable<String, UserData>();
 
 	/* Dependency: logging service */  	
 	private static Log m_logger = LogFactory.getLog(JLDAPDirectoryProvider.class);
@@ -146,10 +146,6 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 			m_logger.info(this +".init()");               
 			// set keystore location for SSL (if we are using it)
 			if(isSecureConnection()){
-				if (getKeystoreLocation() != null) {
-					//	System.setProperty("javax.net.ssl.trustStore", getKeystoreLocation());
-					//	System.setProperty("javax.net.ssl.trustStorePassword", getKeystorePassword());
-				}
 				m_logger.debug("Keystore is at: " + System.getenv("javax.net.ssl.trustStore"));
 				LDAPSocketFactory ssf = new LDAPJSSESecureSocketFactory();
 				LDAPConnection.setSocketFactory(ssf);
