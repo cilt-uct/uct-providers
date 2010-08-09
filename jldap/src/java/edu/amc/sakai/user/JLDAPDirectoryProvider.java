@@ -148,7 +148,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 				LDAPConnection.setSocketFactory(ssf);
 				
 				//initiate the cache
-				users = memoryService.newCache("jldapDirectoryProviders_users");
+				users = memoryService.newCache("edu.amc.sakai.user.JLDAPDirectoryProvider.userCache");
 			}
 		}  
 		catch (Throwable t) {m_logger.warn(this +".init(): ", t);}  

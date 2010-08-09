@@ -199,4 +199,18 @@
 			</bean>
 		</property>
 	</bean>
+	
+	<!-- defaults for cache -->
+    <bean id="edu.amc.sakai.user.JLDAPDirectoryProvider.userCache"
+          class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+       <property name="cacheManager">
+           <ref bean="org.sakaiproject.memory.api.MemoryService.cacheManager"/>
+       </property>
+       <property name="cacheName" value="edu.amc.sakai.user.JLDAPDirectoryProvider.userCache"/>
+       <property name="maxElementsInMemory" value="10000"/>
+       <property name="timeToIdle" value="300000"/>
+       <property name="timeToLive" value="300000"/>
+    </bean>
+	
+	
 </beans>
