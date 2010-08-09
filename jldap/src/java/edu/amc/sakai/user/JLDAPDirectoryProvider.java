@@ -45,6 +45,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.sakaiproject.authz.api.SecurityService;
 import org.sakaiproject.component.api.ServerConfigurationService;
+import org.sakaiproject.memory.api.Cache;
+import org.sakaiproject.memory.api.MemoryService;
 import org.sakaiproject.site.api.SiteService;
 import org.sakaiproject.user.api.UserDirectoryProvider;
 import org.sakaiproject.user.api.UserEdit;
@@ -92,11 +94,11 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 	/* Hashmap of attribute mappings */
 	private HashMap<String, String> attributeMappings = new HashMap<String, String>();
 
-	/* Hashtable of users that have successfully logged in...
+	/* Cache of users that have successfully logged in...
 	 * we pull their details from here instead of the directory on subsequent requests
 	 * we will also expire their details after a default five minutes or so
 	 */
-	private Hashtable<String, UserData> users = new Hashtable<String, UserData>();
+	private Cache users;
 
 	/* Dependency: logging service */  	
 	private static Log m_logger = LogFactory.getLog(JLDAPDirectoryProvider.class);
@@ -127,7 +129,14 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 	public void setSecurityService(SecurityService securityService) {
 		this.securityService = securityService;
 	}
+	
+	private MemoryService memoryService;
+	public void setMemoryService(MemoryService memoryService) {
+		this.memoryService = memoryService;
+	}
 
+	
+	
 	public void init()  
 	{     
 		try   {
@@ -137,6 +146,9 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 				m_logger.debug("Keystore is at: " + System.getenv("javax.net.ssl.trustStore"));
 				LDAPSocketFactory ssf = new LDAPJSSESecureSocketFactory();
 				LDAPConnection.setSocketFactory(ssf);
+				
+				//initiate the cache
+				users = memoryService.newCache("jldapDirectoryProviders_users");
 			}
 		}  
 		catch (Throwable t) {m_logger.warn(this +".init(): ", t);}  
