@@ -79,8 +79,6 @@ import java.util.ListIterator;
 public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 	private String ldapHost = ""; //address of ldap server
 	private int ldapPort = 389; //port to connect to ldap server on
-	private String keystoreLocation = ""; // keystore location (only needed for SSL connections)
-	private String keystorePassword = ""; // keystore password (only needed for SSL connections)
 	private String basePath = ""; //base path to start lookups on
 	private boolean secureConnection = false; //whether or not we are using SSL
 	private int operationTimeout = 5000; //default timeout for operations (in ms)
@@ -123,16 +121,6 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 	public void setServerConfigurationService(ServerConfigurationService service)
 	{
 		m_sService = service;
-	}
-
-	private UserAliasLogic userAliasLogic;
-	public void setUserAliasLogic(UserAliasLogic ual) {
-		userAliasLogic = ual;
-	}
-
-	private SiteService siteService;
-	public void setSiteService(SiteService ss) {
-		siteService = ss;
 	}
 
 	private SecurityService securityService;
@@ -376,10 +364,11 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 	 * Access a collection of UserEdit objects; if the user is found, update the information, otherwise remove the UserEdit object from the collection.
 	 * @param users The UserEdit objects (with id set) to fill in or remove.
 	 */
+	@SuppressWarnings("unchecked")
 	public void getUsers(Collection users)
 	{
 		// TODO: is there a more efficient multi-user LDAP call to use instead of this iteration?
-		for (Iterator i = users.iterator(); i.hasNext();)
+		for (Iterator<UserEdit> i = users.iterator(); i.hasNext();)
 		{
 			UserEdit user = (UserEdit) i.next();
 			if (!getUser(user))
@@ -402,7 +391,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 		LDAPConnection conn = new LDAPConnection();
 		String sFilter = (String)attributeMappings.get("login") + "=" + id;
 
-		String thisDn = "";
+		
 		String[] attrList = new String[] { (String)attributeMappings.get("distinguishedName") };
 		try{
 			conn.connect( ldapHost, ldapPort );
@@ -430,7 +419,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 		cons.setTimeLimit(operationTimeout);
 
 		LDAPSearchResults searchResults =
-			conn.search(getBasePath(),
+			conn.search(this.basePath,
 					LDAPConnection.SCOPE_SUB,
 					searchFilter,
 					attribs,
@@ -446,23 +435,12 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 
 
 	/**
-	 * @return Returns the ldapHost.
-	 */
-	public String getLdapHost() {
-		return ldapHost;
-	}
-	/**
 	 * @param ldapHost The ldapHost to set.
 	 */
 	public void setLdapHost(String ldapHost) {
 		this.ldapHost = ldapHost;
 	}
-	/**
-	 * @return Returns the ldapPort.
-	 */
-	public int getLdapPort() {
-		return ldapPort;
-	}
+
 	/**
 	 * @param ldapPort The ldapPort to set.
 	 */
@@ -512,37 +490,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 		}
 	}
 
-	/**
-	 * @return Returns the keystoreLocation.
-	 */
-	public String getKeystoreLocation() {
-		return keystoreLocation;
-	}
-	/**
-	 * @param keystoreLocation The keystoreLocation to set.
-	 */
-	public void setKeystoreLocation(String keystoreLocation) {
-		this.keystoreLocation = keystoreLocation;
-	}
-	/**
-	 * @return Returns the keystorePassword.
-	 */
-	public String getKeystorePassword() {
-		return keystorePassword;
-	}
-	/**
-	 * @param keystorePassword The keystorePassword to set.
-	 */
-	public void setKeystorePassword(String keystorePassword) {
-		this.keystorePassword = keystorePassword;
-	}
 
-	/**
-	 * @return Returns the basePath.
-	 */
-	public String getBasePath() {
-		return basePath;
-	}
 	/**
 	 * @param basePath The basePath to set.
 	 */
@@ -710,15 +658,11 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 		m_cachettlf = timeMs;
 	}
 
-	/**
-	 * @return Returns the attributeMappings.
-	 */
-	public Map getAttributeMappings() {
-		return attributeMappings;
-	}
+
 	/**
 	 * @param attributeMappings The attributeMappings to set.
 	 */
+	@SuppressWarnings("unchecked")
 	public void setAttributeMappings(Map attributeMappings) {
 		this.attributeMappings = (HashMap)attributeMappings;
 	}

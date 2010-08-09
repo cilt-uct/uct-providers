@@ -44,12 +44,6 @@
 		<property name="logAuthFailure">
 			<value>true</value>
 		</property>
-		<property name="userAliasLogic">
-			<ref bean="org.sakaiproject.useralias.logic.UserAliasLogic" />
-		</property>
-		<property name="siteService">
-			<ref bean="org.sakaiproject.site.api.SiteService" />
-		</property>
 		<property name="attributeMappings">
 			<map>
 				<entry key="login">
