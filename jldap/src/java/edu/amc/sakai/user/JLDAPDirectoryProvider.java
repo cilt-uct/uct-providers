@@ -37,7 +37,6 @@ package edu.amc.sakai.user;
 import java.security.MessageDigest;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -47,10 +46,8 @@ import org.sakaiproject.authz.api.SecurityService;
 import org.sakaiproject.component.api.ServerConfigurationService;
 import org.sakaiproject.memory.api.Cache;
 import org.sakaiproject.memory.api.MemoryService;
-import org.sakaiproject.site.api.SiteService;
 import org.sakaiproject.user.api.UserDirectoryProvider;
 import org.sakaiproject.user.api.UserEdit;
-import org.sakaiproject.useralias.logic.UserAliasLogic;
 
 import sun.misc.BASE64Encoder;
 
@@ -195,6 +192,10 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 		}
 		
 		UserData existingUser = (UserData) users.get(userLogin);
+		
+		if (existingUser != null) {
+			m_logger.info("we got an object from the cache!");
+		}
 
 		boolean authUser = false;
 		String hpassword = encodeSHA(password);
