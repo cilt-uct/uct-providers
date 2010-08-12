@@ -27,11 +27,7 @@
 			<artifactId>sakai-jldap-provider</artifactId>
 		</dependency>
 	
-		<dependency> 
-			<groupId>openldap</groupId> 
-			<artifactId>ldap</artifactId> 
- 			<version>2005.03.29</version> 
-		</dependency> 
+
 
 <!-- Needed for the Kerberos Provider 
 		<dependency>
