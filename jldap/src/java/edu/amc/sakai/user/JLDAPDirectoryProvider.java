@@ -133,7 +133,10 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 	}
 
 	
-	
+	public void setUsers(Cache users) {
+		this.users = users;
+	}
+
 	public void init()  
 	{     
 		try   {
@@ -145,8 +148,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 				LDAPConnection.setSocketFactory(ssf);
 			}
 
-			//initiate the cache
-			users = memoryService.newCache("edu.amc.sakai.user.JLDAPDirectoryProvider.userCache");
+			
 		}  
 		catch (Exception t) {m_logger.warn(this +".init(): ", t);}  
 	}

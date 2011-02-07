@@ -70,7 +70,7 @@
 			<ref bean="org.sakaiproject.component.api.ServerConfigurationService" />
 		</property>
 		<property name="securityService" ref="org.sakaiproject.authz.api.SecurityService"/>
-		<property name="memoryService" ref="org.sakaiproject.memory.api.MemoryService"/>
+		<property name="users" ref="memory.edu.amc.sakai.user.JLDAPDirectoryProvider.userCache"/>
 	</bean>
 	<!--
 		Proxy pointing to whichever Group Provider implementation has been
