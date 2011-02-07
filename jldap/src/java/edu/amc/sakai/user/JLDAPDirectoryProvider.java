@@ -143,12 +143,12 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 				m_logger.debug("Keystore is at: " + System.getenv("javax.net.ssl.trustStore"));
 				LDAPSocketFactory ssf = new LDAPJSSESecureSocketFactory();
 				LDAPConnection.setSocketFactory(ssf);
-				
-				//initiate the cache
-				users = memoryService.newCache("edu.amc.sakai.user.JLDAPDirectoryProvider.userCache");
 			}
+
+			//initiate the cache
+			users = memoryService.newCache("edu.amc.sakai.user.JLDAPDirectoryProvider.userCache");
 		}  
-		catch (Throwable t) {m_logger.warn(this +".init(): ", t);}  
+		catch (Exception t) {m_logger.warn(this +".init(): ", t);}  
 	}
 
 	public void destroy() 

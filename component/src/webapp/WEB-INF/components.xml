@@ -207,7 +207,7 @@
            <ref bean="org.sakaiproject.memory.api.MemoryService.cacheManager"/>
        </property>
        <property name="cacheName" value="edu.amc.sakai.user.JLDAPDirectoryProvider.userCache"/>
-       <property name="maxElementsInMemory" value="10000"/>
+       <property name="maxElementsInMemory" value="100"/>
        <property name="timeToIdle" value="300000"/>
        <property name="timeToLive" value="300000"/>
     </bean>
