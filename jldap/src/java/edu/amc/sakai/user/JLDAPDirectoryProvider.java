@@ -41,6 +41,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import net.sf.ehcache.Cache;
+import net.sf.ehcache.Element;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -312,7 +313,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 					u.setAuthSuccess(true);
 
 					// put entry for authenticated user into cache
-					users.put(userLogin, u);
+					users.put(new Element(userLogin, u));
 
 					return true;
 				}
@@ -331,7 +332,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 					u.setAuthSuccess(false);
 
 					// put entry for authenticated user into cache
-					users.put(userLogin, u);
+					users.put(new Element(userLogin, u));
 
 					return false;
 				}
