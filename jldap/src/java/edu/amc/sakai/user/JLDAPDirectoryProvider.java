@@ -40,11 +40,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import net.sf.ehcache.Cache;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.sakaiproject.authz.api.SecurityService;
 import org.sakaiproject.component.api.ServerConfigurationService;
-import org.sakaiproject.memory.api.Cache;
 import org.sakaiproject.memory.api.MemoryService;
 import org.sakaiproject.user.api.UserDirectoryProvider;
 import org.sakaiproject.user.api.UserEdit;
@@ -193,7 +194,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 			return false;
 		}
 		
-		UserData existingUser = (UserData) users.get(userLogin);
+		UserData existingUser = (UserData) users.get(userLogin).getValue();
 		
 		if (existingUser != null && m_logger.isDebugEnabled()) {
 			m_logger.debug("we got an object from the cache!");
@@ -398,7 +399,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 	}
 
 	public boolean userExists(String id) {
-		UserData existingUser = (UserData)users.get(id);
+		UserData existingUser = (UserData)users.get(id).getValue();
 
 		if(existingUser != null){
 			return true;
