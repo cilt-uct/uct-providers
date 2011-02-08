@@ -195,8 +195,12 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 			return false;
 		}
 		
-		UserData existingUser = (UserData) users.get(userLogin).getValue();
-		
+		UserData existingUser = null;
+		Element element = users.get(userLogin);
+		if (element != null) {
+			existingUser = (UserData) element.getValue();
+		}
+
 		if (existingUser != null && m_logger.isDebugEnabled()) {
 			m_logger.debug("we got an object from the cache!");
 		}
