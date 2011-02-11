@@ -198,7 +198,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 		UserData existingUser = null;
 		Element element = users.get(userLogin);
 		if (element != null) {
-			existingUser = (UserData) element.getValue();
+			existingUser = (UserData) element.getObjectValue();
 		}
 
 		if (existingUser != null && m_logger.isDebugEnabled()) {
