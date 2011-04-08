@@ -325,11 +325,12 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 
 					
 					//set the login time
+					/* This doesn't work as its not persisted
 					ResourceProperties rp = edit.getProperties();
 					DateTime dt = new DateTime();
 					DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
 					rp.addProperty("Last-Login", fmt.print(dt));
-					
+					*/
 					return true;
 				}
 				catch(Exception e)
