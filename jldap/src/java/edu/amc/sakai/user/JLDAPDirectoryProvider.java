@@ -45,8 +45,12 @@ import net.sf.ehcache.Element;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 import org.sakaiproject.authz.api.SecurityService;
 import org.sakaiproject.component.api.ServerConfigurationService;
+import org.sakaiproject.entity.api.ResourceProperties;
 import org.sakaiproject.memory.api.MemoryService;
 import org.sakaiproject.user.api.UserDirectoryProvider;
 import org.sakaiproject.user.api.UserEdit;
@@ -319,6 +323,13 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 					// put entry for authenticated user into cache
 					users.put(new Element(userLogin, u));
 
+					
+					//set the login time
+					ResourceProperties rp = edit.getProperties();
+					DateTime dt = new DateTime();
+					DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
+					rp.addProperty("Last-Login", fmt.print(dt));
+					
 					return true;
 				}
 				catch(Exception e)
