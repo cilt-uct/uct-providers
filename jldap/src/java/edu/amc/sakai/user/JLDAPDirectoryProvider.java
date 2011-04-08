@@ -266,7 +266,6 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 						{
 							m_logger.info("Authentication failed for " + userLogin + ": not found in LDAP directory");
 						}
-						conn.disconnect();
 						return false;
 					}
 
@@ -299,8 +298,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 							thisDn,
 							password.getBytes("UTF8"));
 
-					conn.disconnect();
-
+		
 					if (logAuthSuccess)
 					{
 						
@@ -351,6 +349,11 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 					users.put(new Element(userLogin, u));
 
 					return false;
+				}
+				finally {
+					if (conn != null) {
+						conn.disconnect();
+					}
 				}
 			}
 			else
