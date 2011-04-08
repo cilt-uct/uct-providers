@@ -146,7 +146,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 	public void init()  
 	{     
 		try   {
-			m_logger.info(this +".init()");               
+			m_logger.info("init()");               
 			// set keystore location for SSL (if we are using it)
 			if(isSecureConnection()){
 				m_logger.debug("Keystore is at: " + System.getenv("javax.net.ssl.trustStore"));
@@ -161,7 +161,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 
 	public void destroy() 
 	{       
-		m_logger.info(this +".destroy()");   
+		m_logger.info("destroy()");   
 	}
 
 	public boolean authenticateUser(String userLogin, UserEdit edit, String password){
