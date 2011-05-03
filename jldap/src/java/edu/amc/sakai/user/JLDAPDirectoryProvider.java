@@ -45,12 +45,8 @@ import net.sf.ehcache.Element;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
 import org.sakaiproject.authz.api.SecurityService;
 import org.sakaiproject.component.api.ServerConfigurationService;
-import org.sakaiproject.entity.api.ResourceProperties;
 import org.sakaiproject.memory.api.MemoryService;
 import org.sakaiproject.user.api.UserDirectoryProvider;
 import org.sakaiproject.user.api.UserEdit;
