@@ -34,6 +34,7 @@
 
 package edu.amc.sakai.user;
 
+import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.util.Collection;
 import java.util.HashMap;
@@ -91,7 +92,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 	private boolean logAuthFailure = true;   // log unsuccessful authentication
 
 	/* Hashmap of attribute mappings */
-	private HashMap<String, String> attributeMappings = new HashMap<String, String>();
+	private Map<String, String> attributeMappings = new HashMap<String, String>();
 
 	/* Cache of users that have successfully logged in...
 	 * we pull their details from here instead of the directory on subsequent requests
@@ -217,7 +218,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 		// 4) the one-way hash of the entered password must be equivalent to what is stored in the cache
 		//
 		// If these conditions are not, the authentication is performed via LDAP and the result is cached
-		try {	
+		//try {	
 			if (existingUser == null 
 					|| ((System.currentTimeMillis() - existingUser.getTimeStamp()) > m_cachettl && existingUser.authSuccess && existingUser.getHpw().equals(hpassword))
 					|| ((System.currentTimeMillis() - existingUser.getTimeStamp()) > m_cachettlf && !existingUser.authSuccess && existingUser.getHpw().equals(hpassword))
@@ -327,7 +328,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 					*/
 					return true;
 				}
-				catch(Exception e)
+				catch(LDAPException e)
 				{
 					if (logAuthFailure)
 					{
@@ -345,10 +346,18 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 					users.put(new Element(userLogin, u));
 
 					return false;
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 				finally {
-					if (conn != null) {
-						conn.disconnect();
+					if (conn != null && conn.isConnected()) {
+						try {
+							conn.disconnect();
+						} catch (LDAPException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 				}
 			}
@@ -368,12 +377,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 				return authUser;
 			}
 
-		}
-		catch (Exception e)
-		{
-			m_logger.warn("authenticateUser(): exception: " + e);
-			return false;
-		}
+				return false;
 	}
 
 	public void destroyAuthentication() {
@@ -531,7 +535,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 	}
 
 	//helper class for storing user data in the hashtable cache
-	class UserData{
+	static class UserData{
 		String id;
 		String firstName;
 		String lastName;
@@ -696,7 +700,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 	 */
 	@SuppressWarnings("unchecked")
 	public void setAttributeMappings(Map attributeMappings) {
-		this.attributeMappings = (HashMap)attributeMappings;
+		this.attributeMappings = (Map)attributeMappings;
 	}
 	/**
 	 * @return Returns the operationTimeout.
