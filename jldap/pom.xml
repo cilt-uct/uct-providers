@@ -4,12 +4,13 @@
   <parent>
     <artifactId>providers-base</artifactId>
     <groupId>org.sakaiproject</groupId>
-    <version>.2.8-SNAPSHOT</version>
+    <version>2.8-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <name>uct-jldap-provider</name>
   <groupId>org.sakaiproject</groupId>
   <artifactId>sakai-jldap-provider</artifactId>
+  <version>3.0-SNAPSHOT</version>
   <organization>
     <name>Sakai Project Contributor see (see NOTICE.txt)</name>
     <url>http://sakaiproject.org/</url>
