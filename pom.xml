@@ -28,13 +28,13 @@
 			<dependency>
 				<groupId>org.sakaiproject</groupId>
 				<artifactId>sakai-useralias-logic-api</artifactId>
-				<version>0.2-SNAPSHOT</version><!--emailtemplateservice.version-->
+				<version>0.3-SNAPSHOT</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.sakaiproject</groupId>
 				<artifactId>sakai-useralias-model-api</artifactId>
-				<version>0.2-SNAPSHOT</version><!--emailtemplateservice.version-->
+				<version>0.3-SNAPSHOT</version>
 				<scope>provided</scope>
 			</dependency>
 			
