@@ -27,7 +27,7 @@
 			<property name="keystorePassword"><value>changeit</value></property>
 		-->
 		<property name="basePath">
-			<value>o=uct</value>
+			<value>o=uct, ou=users</value>
 		</property>
 		<property name="operationTimeout">
 			<value>5000</value>
