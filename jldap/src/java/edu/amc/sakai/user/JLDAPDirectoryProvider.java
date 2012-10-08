@@ -34,6 +34,7 @@
 
 package edu.amc.sakai.user;
 
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.util.Collection;
@@ -535,7 +536,11 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 	}
 
 	//helper class for storing user data in the hashtable cache
-	static class UserData{
+	static class UserData implements Serializable {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 		String id;
 		String firstName;
 		String lastName;
