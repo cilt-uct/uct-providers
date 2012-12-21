@@ -13,7 +13,7 @@
 	<bean id="org.sakaiproject.user.api.UserDirectoryProvider" class="edu.amc.sakai.user.JLDAPDirectoryProvider"
 		init-method="init" destroy-method="destroy">
 		<property name="ldapHost">
-			<value>ldap.uct.ac.za</value>
+			<value>ldap.uct.ac.za srvslspws001.uct.ac.za srvslspws002.uct.ac.za</value>
 		</property>
 		<property name="ldapPort">
 			<value>636</value>
