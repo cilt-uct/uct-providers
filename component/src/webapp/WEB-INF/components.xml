@@ -211,8 +211,7 @@
        <property name="timeToIdle" value="300000"/>
        <property name="timeToLive" value="300000"/>
        <property name="overflowToDisk" value="false"/>
-       
+       <property name="statisticsEnabled" value="true"/>
     </bean>
-	
 	
 </beans>
