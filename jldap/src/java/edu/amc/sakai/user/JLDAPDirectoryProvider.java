@@ -231,10 +231,11 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 				users.remove(userLogin);
 
 				// create new ldap connection
-				LDAPConnection conn = new LDAPConnection();	
+				LDAPConnection conn = new LDAPConnection(operationTimeout);	
 				LDAPConstraints cons = new LDAPConstraints();
 
-				cons.setTimeLimit(operationTimeout);			
+				cons.setTimeLimit(operationTimeout);
+				conn.setSocketTimeOut(operationTimeout);
 				conn.setConstraints(cons);
 
 				// filter to find user
@@ -252,7 +253,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 				};
 
 				try {
-					m_logger.debug("Connecting to LDAP host " + ldapHost + ":" + ldapPort);
+					m_logger.debug("Connecting to LDAP host " + ldapHost + ":" + ldapPort + " with timeout " + operationTimeout);
 					// connect to ldap server
 					conn.connect( ldapHost, ldapPort );
 
