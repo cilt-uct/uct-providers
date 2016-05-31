@@ -86,7 +86,8 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 	private boolean secureConnection = false; //whether or not we are using SSL
 	private int operationTimeout = 5000; //default timeout for operations (in ms)
 
-
+	private String ldapUser = "";	// LDAP user to bind as for search
+	private String ldapPass = "";	// LDAP password for search bind
 
 	/* logging options */
 	private boolean logAuthSuccess = false;  // log successful authentication
@@ -250,11 +251,21 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 						"loginDisabled"
 				};
 
-				try{
+				try {
+					m_logger.debug("Connecting to LDAP host " + ldapHost + ":" + ldapPort);
 					// connect to ldap server
 					conn.connect( ldapHost, ldapPort );
 
+					// bind as search user
+					if ((ldapUser != null) && (!ldapUser.isEmpty())) {
+						m_logger.debug("Binding as search user " + ldapUser);
+						conn.bind(LDAPConnection.LDAP_V3,
+							ldapUser,
+							ldapPass.getBytes("UTF8"));
+					}
+
 					// get entry from directory
+					m_logger.debug("Searching for target user " + userLogin);
 					LDAPEntry userEntry = getEntryFromDirectory(sFilter,attrList,conn);
 
 					// check that user exists in directory
@@ -420,6 +431,9 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 	}
 
 	public boolean userExists(String id) {
+
+		m_logger.warn("userExists: " + id);
+
 		UserData existingUser = (UserData)users.get(id).getValue();
 
 		if(existingUser != null){
@@ -483,6 +497,20 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 	 */
 	public void setLdapPort(int ldapPort) {
 		this.ldapPort = ldapPort;
+	}
+
+	/**
+	 * @param ldapUser The ldapUser to set.
+	 */
+	public void setLdapUser(String ldapUser) {
+		this.ldapUser = ldapUser;
+	}
+
+	/**
+	 * @param ldapPass The ldapPass to set.
+	 */
+	public void setLdapPass(String ldapPass) {
+		this.ldapPass = ldapPass;
 	}
 
 	/**
