@@ -1,5 +1,5 @@
-cm-authz-provider		https://source.sakaiproject.org/svn/providers/branches/sakai-10.x/cm-authz-provider/
-cm-authz-integration-test	https://source.sakaiproject.org/svn/providers/branches/sakai-10.x/cm-authz-integration-test/
+cm-authz-provider		https://github.com/sakaiproject/sakai/branches/11.x/providers/cm-authz-provider/
+#cm-authz-integration-test	https://github.com/sakaiproject/sakai/branches/11.x/providers/cm-authz-integration-test/
 
 
 
