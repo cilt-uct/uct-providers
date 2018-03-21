@@ -96,6 +96,9 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 	/* Hashmap of attribute mappings */
 	private Map<String, String> attributeMappings = new HashMap<String, String>();
 
+	// LDAP result
+	enum LdapResult { SUCCESS, FAILURE, TRANSIENT_FAILURE };
+
 	/* Cache of users that have successfully logged in...
 	 * we pull their details from here instead of the directory on subsequent requests
 	 * we will also expire their details after a default five minutes or so
@@ -164,6 +167,28 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 	}
 
 	public boolean authenticateUser(String userLogin, UserEdit edit, String password){
+
+		int max_attempts = 3;
+		int attempt = 0;
+
+		while (attempt++ < max_attempts) {
+			LdapResult result = ldapAuthenticate(userLogin, edit, password);
+
+			if (result == LdapResult.SUCCESS) {
+				return true;
+			}
+
+			if (result == LdapResult.FAILURE) {
+				return false;
+			}
+		}
+
+		m_logger.warn("Authentication for " + userLogin + " failed after " + max_attempts + " attempts");
+
+		return false;
+	}
+
+	private LdapResult ldapAuthenticate(String userLogin, UserEdit edit, String password){
 		m_logger.debug(this +".authenticateUser(): " + userLogin); 
 
 		long authStart = System.currentTimeMillis();
@@ -171,7 +196,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 		if ((userLogin.indexOf("@") != -1) || userLogin.equals("admin") || userLogin.equals("*")|| userLogin.equalsIgnoreCase(("guest"))) 
 		{
 			// Thread.sleep(500);
-			return false;
+			return LdapResult.FAILURE;
 		}
 		
 		//If the UserDirectoryService did not find a Sakai-managed user
@@ -180,7 +205,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 		if ((edit.getId() == null))
 		{
 			m_logger.debug("authenticateUser(): user " + userLogin + " not filled in by caller, returning false");
-			return false;
+			return LdapResult.FAILURE;
 		} 
 		
 		// make sure password contains some value
@@ -189,13 +214,13 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 			{
 				m_logger.debug("Authentication failed (blank password) for " + userLogin); 
 			}
-			return false;
+			return LdapResult.FAILURE;
 		}
 
 		//don't authenticate any members of the admin group
 		if (securityService.isSuperUser(edit.getId())) {
 			m_logger.debug("user is superuser!: " + edit.getEid());
-			return false;
+			return LdapResult.FAILURE;
 		}
 		
 		UserData existingUser = null;
@@ -276,7 +301,7 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 						{
 							m_logger.info("Authentication failed for " + userLogin + ": not found in LDAP directory");
 						}
-						return false;
+						return LdapResult.FAILURE;
 					}
 
 					// Disable for now - NPEs on student accounts
@@ -339,26 +364,31 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 					DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
 					rp.addProperty("Last-Login", fmt.print(dt));
 					*/
-					return true;
+					return LdapResult.SUCCESS;
 				}
-				catch(LDAPException e)
+				catch (LDAPException e)
 				{
 					if (logAuthFailure)
 					{
 						m_logger.info("Authentication failed for " + userLogin + " (" + thisDn + "): " + e.toString());
 					}
 
-					// create entry for user failed authenticatation in cache
-					UserData u = new UserData(); 
-					u.setId(userLogin);
-					u.setHpw(hpassword);
-					u.setTimeStamp(System.currentTimeMillis());
-					u.setAuthSuccess(false);
+					if (e.toString().contains("Invalid Credentials")) {
+						// create entry for user failed authenticatation in cache
+						UserData u = new UserData(); 
+						u.setId(userLogin);
+						u.setHpw(hpassword);
+						u.setTimeStamp(System.currentTimeMillis());
+						u.setAuthSuccess(false);
 
-					// put entry for authenticated user into cache
-					users.put(new Element(userLogin, u));
+						// put entry for authenticated user into cache
+						users.put(new Element(userLogin, u));
 
-					return false;
+						return LdapResult.FAILURE;
+					} else {
+						return LdapResult.TRANSIENT_FAILURE;
+					}
+
 				} catch (UnsupportedEncodingException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -387,10 +417,10 @@ public class JLDAPDirectoryProvider implements UserDirectoryProvider {
 					m_logger.info("Authentication failed for " + userLogin + ": matched invalid password from auth cache");				
 				}
 
-				return authUser;
+				return authUser ? LdapResult.SUCCESS : LdapResult.FAILURE;
 			}
 
-				return false;
+		return LdapResult.FAILURE;
 	}
 
 	public void destroyAuthentication() {
